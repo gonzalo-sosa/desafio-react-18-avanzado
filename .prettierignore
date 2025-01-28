@@ -1,0 +1,14 @@
+vite.config.ts
+eslint.config.js
+public
+node_modules
+package-lock.json
+dist
+*.prettierrc
+*.eslintrc.config.js
+*.lintstagedrc.json
+*.yaml
+package.json
+tsconfig.*
+*.config.*
+vercel.json
