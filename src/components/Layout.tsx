@@ -11,7 +11,7 @@ export default function Layout({ children }: Props) {
   return (
     <>
       <NavBar />
-      <Grid templateColumns={'200px 1fr'} gap={2}>
+      <Grid templateColumns={'260px 1fr'} gap={2}>
         <SideBar />
         {children}
       </Grid>
