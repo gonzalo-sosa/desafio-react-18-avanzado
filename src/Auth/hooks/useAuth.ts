@@ -1,7 +1,6 @@
-export default function () {
-  return {
-    user: null,
-    login: () => {},
-    logout: () => {},
-  };
-}
+import { useContext } from 'react';
+import AuthContext from '../context/AuthContext';
+
+const useAuth = () => useContext(AuthContext);
+
+export default useAuth;
