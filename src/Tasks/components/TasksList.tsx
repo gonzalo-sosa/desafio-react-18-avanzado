@@ -24,7 +24,12 @@ export default function TasksList({ listId }: TasksListProps) {
 
   return (
     <>
-      <ListRoot>
+      <ListRoot
+        listStyle={'none'}
+        flexDirection={'column'}
+        gap={2}
+        paddingBlock={4}
+      >
         {tasks.map((task) => (
           <TaskItem key={task.id} task={task} />
         ))}
