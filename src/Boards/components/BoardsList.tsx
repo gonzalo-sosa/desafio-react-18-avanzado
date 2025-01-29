@@ -2,20 +2,21 @@ import useBoardsStore from '@/store/boards-store';
 import { ListRoot, ListItem, Button, Heading, HStack } from '@chakra-ui/react';
 import { LuPlus } from 'react-icons/lu';
 import { NavLink } from 'react-router-dom';
+import BoardAddPopover from './BoardAddPopover';
 
 // type Props = {};
 
 export default function BoardsList() {
   const boards = useBoardsStore((s) => s.boards);
-  const addBoard = useBoardsStore((s) => s.addBoard);
+  // const addBoard = useBoardsStore((s) => s.addBoard);
 
-  const handleAddBoard = () => {
-    addBoard({
-      id: '1',
-      title: 'Mi Tablero',
-      description: 'Mi Tablero de Trello',
-    });
-  };
+  // const handleAddBoard = () => {
+  //   addBoard({
+  //     id: '1',
+  //     title: 'Mi Tablero',
+  //     description: 'Mi Tablero de Trello',
+  //   });
+  // };
 
   return (
     <>
@@ -23,13 +24,16 @@ export default function BoardsList() {
         <Heading fontSize={'medium'} fontWeight={'normal'}>
           Sus tableros
         </Heading>
-        <Button
-          onClick={() => handleAddBoard()}
-          backgroundColor={'transparent'}
-          color={'white'}
-        >
-          <LuPlus />
-        </Button>
+        <BoardAddPopover>
+          <Button
+            type="submit"
+            backgroundColor={'transparent'}
+            color={'white'}
+            size={'sm'}
+          >
+            <LuPlus />
+          </Button>
+        </BoardAddPopover>
       </HStack>
       <ListRoot
         listStyle={'none'}

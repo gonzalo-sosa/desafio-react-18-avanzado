@@ -1,6 +1,7 @@
 // type Props = {};
 
 import { Heading, ListItem, ListRoot } from '@chakra-ui/react';
+import { LuCalendar, LuTable } from 'react-icons/lu';
 
 export default function WorkSpace() {
   return (
@@ -9,8 +10,13 @@ export default function WorkSpace() {
         WorkSpace
       </Heading>
       <ListRoot listStyle={'none'}>
-        <ListItem>Tabla</ListItem>
-        <ListItem>Calendario</ListItem>
+        <ListItem display={'flex'} alignItems={'center'} gap={4}>
+          <LuTable />
+          Tabla
+        </ListItem>
+        <ListItem display={'flex'} alignItems={'center'} gap={4}>
+          <LuCalendar /> Calendario
+        </ListItem>
       </ListRoot>
     </>
   );
