@@ -1,50 +1,46 @@
 import useBoardsStore from '@/store/boards-store';
-import { ListRoot, ListItem, Button, Heading, HStack } from '@chakra-ui/react';
-import { LuPlus } from 'react-icons/lu';
-import { NavLink } from 'react-router-dom';
-import BoardAddPopover from './BoardAddPopover';
+import { ListRoot, Button, Heading, HStack } from '@chakra-ui/react';
+import { LuPlus, LuTrello } from 'react-icons/lu';
+import NewBoardForm from './NewBoardForm';
+import Popover from '../../components/Popover';
+import Board from '@/models/Board';
+import SideBarItem from '@/components/SideBarItem';
 
 // type Props = {};
 
 export default function BoardsList() {
   const boards = useBoardsStore((s) => s.boards);
-  // const addBoard = useBoardsStore((s) => s.addBoard);
+  const addBoard = useBoardsStore((s) => s.addBoard);
 
-  // const handleAddBoard = () => {
-  //   addBoard({
-  //     id: '1',
-  //     title: 'Mi Tablero',
-  //     description: 'Mi Tablero de Trello',
-  //   });
-  // };
+  const handleAddBoard = (data: Omit<Board, 'id'>) => {
+    addBoard({ ...data, id: '1' });
+  };
 
   return (
     <>
-      <HStack>
+      <HStack justifyContent={'space-between'} px={2}>
         <Heading fontSize={'medium'} fontWeight={'normal'}>
           Sus tableros
         </Heading>
-        <BoardAddPopover>
-          <Button
-            type="submit"
-            backgroundColor={'transparent'}
-            color={'white'}
-            size={'sm'}
-          >
-            <LuPlus />
-          </Button>
-        </BoardAddPopover>
+        <Popover
+          trigger={
+            <Button type="submit" size={'sm'}>
+              <LuPlus />
+            </Button>
+          }
+        >
+          <NewBoardForm onSubmit={handleAddBoard} />
+        </Popover>
       </HStack>
-      <ListRoot
-        listStyle={'none'}
-        display={'flex'}
-        flexDirection={'column'}
-        gap={2}
-      >
+      <ListRoot listStyle={'none'}>
         {boards.map((board) => (
-          <ListItem key={board.id}>
-            <NavLink to={`/boards/${board.id}`}>{board.title}</NavLink>
-          </ListItem>
+          <SideBarItem
+            key={board.id}
+            navLinkProps={{ to: `/boards/${board.id}` }}
+          >
+            <LuTrello />
+            {board.title}
+          </SideBarItem>
         ))}
       </ListRoot>
     </>

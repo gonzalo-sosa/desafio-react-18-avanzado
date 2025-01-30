@@ -7,7 +7,7 @@ import BoardNavBar from './BoardNavBar';
 import ListCard from '@/Lists/components/ListCard';
 import useListsStore from '@/store/lists-store';
 
-export default function Board() {
+export default function BoardPage() {
   const { boardId } = useParams();
   const boards = useBoardsStore((s) => s.boards);
   const [board] = boards.filter((b) => b.id === boardId);
