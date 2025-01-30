@@ -1,6 +1,6 @@
 // type Props = {};
 
-import BoardsList from '@/Boards/components/BoardsList';
+import BoardsSideBar from '@/Boards/components/BoardsSideBar';
 import {
   Box,
   Button,
@@ -12,8 +12,10 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import {
+  LuChevronDown,
   LuChevronLeft,
   LuChevronRight,
+  LuPlus,
   LuSettings,
   LuTrello,
   LuUsers,
@@ -44,14 +46,20 @@ function SideBarContent() {
           <SideBarItem navLinkProps={{ to: '/members' }}>
             <LuUsers />
             Miembros
+            <IconButton variant={'outline'} size={'xs'} marginLeft={'auto'}>
+              <LuPlus />
+            </IconButton>
           </SideBarItem>
           <SideBarItem navLinkProps={{ to: '/settings' }}>
             <LuSettings />
             Ajustes del Espacio de trabajo
+            <IconButton variant={'outline'} size={'xs'} marginLeft={'auto'}>
+              <LuChevronDown />
+            </IconButton>
           </SideBarItem>
         </ListRoot>
         <WorkSpaceSideBar />
-        <BoardsList />
+        <BoardsSideBar />
       </Flex>
     </VStack>
   );
