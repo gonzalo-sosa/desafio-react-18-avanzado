@@ -1,7 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 import ProtectedRoutes from '@/components/ProtectedRoutes';
 import { Register, Login } from './Auth';
-import Board from './Boards/components/Board';
+import WorkSpacePage from './WorkSpace/components/WorkSpacePage';
+import BoardPage from './Boards/components/BoardPage';
 
 const router = createBrowserRouter([
   {
@@ -18,31 +19,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'boards/:boardId',
-        element: <Board />,
-        children: [
-          {
-            path: 'lists',
-            element: <div>Lists</div>,
-            children: [
-              {
-                path: ':listId',
-                element: <div>List Id</div>,
-                children: [
-                  {
-                    path: 'tasks',
-                    element: <div>Tasks</div>,
-                    children: [
-                      {
-                        path: ':taskId',
-                        element: <div>Task Id</div>,
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+        element: <BoardPage />,
+      },
+      {
+        path: 'workspace/:workspaceId',
+        element: <WorkSpacePage />,
       },
     ],
   },
