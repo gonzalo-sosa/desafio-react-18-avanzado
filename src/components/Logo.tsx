@@ -12,11 +12,15 @@ export default function Logo() {
       onMouseLeave={() => setIsHovered(false)}
     >
       <Image
+        filter={'invert(1)'}
+        alt="Trello Logo"
         htmlWidth={80}
         src={TrelloLogo}
         display={isHovered ? 'none' : 'block'}
       />
       <Image
+        filter={'invert(1)'}
+        alt="Trello Logo Animated"
         htmlWidth={80}
         src={TrelloLogoAnimated}
         display={isHovered ? 'block' : 'none'}
