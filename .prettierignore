@@ -12,3 +12,4 @@ package.json
 tsconfig.*
 *.config.*
 vercel.json
+src/components/ui
