@@ -21,7 +21,12 @@ export default function BoardNavBar({ board }: BoardNavBarProps) {
   const { getUser } = useAuth();
 
   return (
-    <HStack justifyContent={'space-between'} paddingBlock={2}>
+    <HStack
+      justifyContent={'space-between'}
+      padding={2}
+      borderWidth={2}
+      backgroundColor={'white'}
+    >
       <Flex flexDirection={'row'} alignItems={'center'} gap={2}>
         <Heading>{board.title}</Heading>
         <IconButton size={'xs'}>
