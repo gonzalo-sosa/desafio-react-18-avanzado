@@ -10,7 +10,7 @@ interface State {
 
 const useListsStore = create<State>((set) => ({
   lists: [],
-  addList: (list) => set((state) => ({ lists: [list, ...state.lists] })),
+  addList: (list) => set((state) => ({ lists: [...state.lists, list] })),
   updateList: (list) =>
     set((state) => ({
       // TODO: mejorar lógica para evitar que recorra todo el array

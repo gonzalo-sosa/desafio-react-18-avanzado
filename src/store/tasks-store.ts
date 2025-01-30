@@ -10,7 +10,7 @@ interface State {
 
 const useTasksStore = create<State>((set) => ({
   tasks: [],
-  addTask: (task) => set((state) => ({ tasks: [task, ...state.tasks] })),
+  addTask: (task) => set((state) => ({ tasks: [...state.tasks, task] })),
   updateTask: (task) =>
     set((state) => ({
       // TODO: mejorar lógica para evitar que recorra todo el array
