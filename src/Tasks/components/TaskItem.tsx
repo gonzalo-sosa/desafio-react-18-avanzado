@@ -6,5 +6,9 @@ type TaskItemProps = {
 };
 
 export default function TaskItem({ task }: TaskItemProps) {
-  return <ListItem>{task.title}</ListItem>;
+  return (
+    <ListItem boxShadow={'sm'} p={2} textStyle={'xs'}>
+      {task.title}
+    </ListItem>
+  );
 }

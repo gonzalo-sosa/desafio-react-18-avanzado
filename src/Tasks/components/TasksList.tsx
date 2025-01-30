@@ -1,7 +1,11 @@
 import { ListId } from '@/models/List';
 import useTasksStore from '@/store/tasks-store';
-import { Button, ListRoot } from '@chakra-ui/react';
+import { Button, HStack, IconButton, ListRoot } from '@chakra-ui/react';
 import TaskItem from './TaskItem';
+import { useState } from 'react';
+import AddTaskForm from './AddTaskForm';
+import Task from '@/models/Task';
+import { LuImage, LuPlus } from 'react-icons/lu';
 
 type TasksListProps = {
   listId: ListId;
@@ -13,13 +17,17 @@ export default function TasksList({ listId }: TasksListProps) {
   );
   const addTask = useTasksStore((s) => s.addTask);
 
-  const handleAddTask = () => {
+  const [showForm, setShowForm] = useState(false);
+
+  const handleAddTask = (data: Pick<Task, 'title'>) => {
     addTask({
-      id: '1',
-      title: 'Mi tarjeta',
-      description: 'Mi descripción',
+      id: String(Date.now()),
+      title: data.title,
+      description: '',
       listId,
     });
+
+    setShowForm(false);
   };
 
   return (
@@ -27,14 +35,31 @@ export default function TasksList({ listId }: TasksListProps) {
       <ListRoot
         listStyle={'none'}
         flexDirection={'column'}
-        gap={2}
+        gap={3}
         paddingBlock={4}
       >
         {tasks.map((task) => (
           <TaskItem key={task.id} task={task} />
         ))}
       </ListRoot>
-      <Button onClick={() => handleAddTask()}>Añade una tarjeta</Button>
+      {showForm ? (
+        <AddTaskForm onSubmit={handleAddTask} />
+      ) : (
+        <HStack>
+          <Button
+            flex={1}
+            justifyContent={'start'}
+            size={'xs'}
+            onClick={() => setShowForm(true)}
+          >
+            <LuPlus size={'xs'} />
+            Añade una tarjeta
+          </Button>
+          <IconButton size={'xs'}>
+            <LuImage />
+          </IconButton>
+        </HStack>
+      )}
     </>
   );
 }
