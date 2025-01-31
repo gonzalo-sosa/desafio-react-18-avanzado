@@ -1,23 +1,24 @@
-// type Props = {};
-
 import useBoardsStore from '@/store/boards-store';
-import { Box, Button, Flex, ListItem, ListRoot } from '@chakra-ui/react';
+import { Box, Button, Flex, ListItem } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import BoardNavBar from './BoardNavBar';
-import ListCard from '@/Lists/components/ListCard';
+import { ListCard, AddListForm } from '@/Lists';
 import useListsStore from '@/store/lists-store';
 import { useState } from 'react';
-import AddListForm from '@/Lists/components/AddListForm';
 import Board from '@/models/Board';
 import { LuPlus } from 'react-icons/lu';
+import ListCardContainer from '@/Lists/components/ListCardContainer';
 
+// type BoardPageProps = {};
 export default function BoardPage() {
   const { boardId } = useParams();
 
   const boards = useBoardsStore((s) => s.boards);
   const [board] = boards.filter((b) => b.id === boardId);
 
-  const lists = useListsStore((s) => s.lists);
+  const lists = useListsStore((s) => s.lists).filter(
+    (l) => l.boardId === boardId,
+  );
   const addList = useListsStore((s) => s.addList);
 
   const [showForm, setShowForm] = useState(false);
@@ -46,13 +47,14 @@ export default function BoardPage() {
         overflowX={'auto'}
         padding={2}
       >
-        <ListRoot listStyle={'none'} flexDirection={'row'} gap={4}>
+        <ListCardContainer id={'list-container'}>
           {lists.map((list) => (
             <ListItem key={list.id}>
               <ListCard key={list.id} list={list} />
             </ListItem>
           ))}
-        </ListRoot>
+        </ListCardContainer>
+
         {showForm ? (
           <AddListForm onSubmit={handleAddList} />
         ) : (
