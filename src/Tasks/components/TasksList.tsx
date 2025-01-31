@@ -6,6 +6,21 @@ import { useState } from 'react';
 import AddTaskForm from './AddTaskForm';
 import Task from '@/models/Task';
 import { LuImage, LuPlus } from 'react-icons/lu';
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 
 type TasksListProps = {
   listId: ListId;
@@ -16,8 +31,16 @@ export default function TasksList({ listId }: TasksListProps) {
     (t) => t.listId === listId,
   );
   const addTask = useTasksStore((s) => s.addTask);
+  const setTasks = useTasksStore((s) => s.setTasks);
 
   const [showForm, setShowForm] = useState(false);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
 
   const handleAddTask = (data: Pick<Task, 'title'>) => {
     addTask({
@@ -31,16 +54,22 @@ export default function TasksList({ listId }: TasksListProps) {
   };
 
   return (
-    <>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
       <ListRoot
         listStyle={'none'}
         flexDirection={'column'}
         gap={3}
         paddingBlock={4}
       >
-        {tasks.map((task) => (
-          <TaskItem key={task.id} task={task} />
-        ))}
+        <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
+          {tasks.map((task) => (
+            <TaskItem key={task.id} task={task} />
+          ))}
+        </SortableContext>
       </ListRoot>
       {showForm ? (
         <AddTaskForm onSubmit={handleAddTask} />
@@ -60,6 +89,19 @@ export default function TasksList({ listId }: TasksListProps) {
           </IconButton>
         </HStack>
       )}
-    </>
+    </DndContext>
   );
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    if (!over || !over.id) return;
+
+    if (active.id !== over.id) {
+      const oldIndex = tasks.findIndex(({ id }) => id === active.id);
+      const newIndex = tasks.findIndex(({ id }) => id === over.id);
+
+      setTasks(arrayMove(tasks, oldIndex, newIndex));
+    }
+  }
 }
