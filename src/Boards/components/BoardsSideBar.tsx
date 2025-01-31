@@ -35,6 +35,10 @@ export default function BoardsSideBar() {
           Sus tableros
         </Heading>
         <Popover
+          popoverRootProps={{
+            positioning: { placement: 'right' },
+            modal: true,
+          }}
           trigger={
             <IconButton variant={'outline'} type="submit" size={'xs'}>
               <LuPlus />

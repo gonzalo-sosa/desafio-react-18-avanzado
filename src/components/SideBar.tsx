@@ -45,14 +45,24 @@ function SideBarContent() {
           <SideBarItem navLinkProps={{ to: '/members' }}>
             <LuUsers />
             Miembros
-            <IconButton variant={'outline'} size={'xs'} marginLeft={'auto'}>
+            <IconButton
+              variant={'outline'}
+              size={'xs'}
+              marginLeft={'auto'}
+              marginRight={-2}
+            >
               <LuPlus />
             </IconButton>
           </SideBarItem>
           <SideBarItem navLinkProps={{ to: '/settings' }}>
             <LuSettings />
             Ajustes del Espacio de trabajo
-            <IconButton variant={'outline'} size={'xs'} marginLeft={'auto'}>
+            <IconButton
+              variant={'outline'}
+              size={'xs'}
+              marginLeft={'auto'}
+              marginRight={-2}
+            >
               <LuChevronDown />
             </IconButton>
           </SideBarItem>

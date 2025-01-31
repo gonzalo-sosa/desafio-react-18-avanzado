@@ -46,7 +46,7 @@ export default function NewBoardForm({ onSubmit }: NewBoardFormProps) {
 
   return (
     <Stack as={'form'} maxW={'400px'} onSubmit={handleSubmit(onSubmit)}>
-      <Heading>Crear Tablero</Heading>
+      <Heading fontWeight={'normal'}>Crear Tablero</Heading>
       <Field label="Color de fondo">
         <BackgroundColorPicker />
       </Field>
@@ -81,7 +81,7 @@ export default function NewBoardForm({ onSubmit }: NewBoardFormProps) {
               <SelectTrigger>
                 <SelectValueText placeholder="Seleccionar visibilidad" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent zIndex={'max'}>
                 {visibilities.items.map((visibility) => (
                   <SelectItem item={visibility} key={visibility.value}>
                     {visibility.label}

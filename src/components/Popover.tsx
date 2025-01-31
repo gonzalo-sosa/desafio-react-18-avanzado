@@ -5,16 +5,22 @@ import {
   PopoverContent,
   PopoverRoot,
   PopoverTrigger,
-} from '@chakra-ui/react';
+} from '@/components/ui/popover';
+import { PopoverRootProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 type NewBoardPopoverProps = {
+  popoverRootProps?: Omit<PopoverRootProps, 'children'>;
   trigger: ReactNode;
   children: ReactNode;
 };
 
-export default function Popover({ trigger, children }: NewBoardPopoverProps) {
+export default function Popover({
+  popoverRootProps,
+  trigger,
+  children,
+}: NewBoardPopoverProps) {
   return (
-    <PopoverRoot positioning={{ placement: 'right' }}>
+    <PopoverRoot {...popoverRootProps}>
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
       <PopoverContent>
         <PopoverArrow />
