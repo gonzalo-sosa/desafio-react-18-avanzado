@@ -1,6 +1,6 @@
 import { ListId } from '@/models/List';
 import useTasksStore from '@/store/tasks-store';
-import { Button, HStack, IconButton, ListRoot } from '@chakra-ui/react';
+import { Button, HStack, IconButton, ListRoot, Text } from '@chakra-ui/react';
 import TaskItem from './TaskItem';
 import { useState } from 'react';
 import AddTaskForm from './AddTaskForm';
@@ -21,6 +21,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import { Tooltip } from '@/components/ui/tooltip';
 
 type TasksListProps = {
   listId: ListId;
@@ -76,17 +77,26 @@ export default function TasksList({ listId }: TasksListProps) {
       ) : (
         <HStack>
           <Button
+            variant={'ghost'}
             flex={1}
             justifyContent={'start'}
             size={'xs'}
             onClick={() => setShowForm(true)}
+            _hover={{ bg: 'gray.300' }}
+            rounded={'md'}
           >
             <LuPlus size={'xs'} />
-            Añade una tarjeta
+            <Text marginLeft={2}>Añade una tarjeta</Text>
           </Button>
-          <IconButton size={'xs'}>
-            <LuImage />
-          </IconButton>
+          <Tooltip content={'Añade a partir de pantalla'}>
+            <IconButton
+              size={'xs'}
+              variant={'ghost'}
+              _hover={{ bg: 'gray.300' }}
+            >
+              <LuImage />
+            </IconButton>
+          </Tooltip>
         </HStack>
       )}
     </DndContext>

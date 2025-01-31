@@ -1,7 +1,9 @@
+import { Tooltip } from '@/components/ui/tooltip';
 import Task from '@/models/Task';
-import { ListItem } from '@chakra-ui/react';
+import { IconButton, ListItem, Text } from '@chakra-ui/react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { LuPencil } from 'react-icons/lu';
 
 type TaskItemProps = {
   task: Task;
@@ -21,11 +23,30 @@ export default function TaskItem({ task }: TaskItemProps) {
       {...attributes}
       {...listeners}
       style={style}
-      boxShadow={'sm'}
-      p={2}
+      boxShadow={'xs'}
+      bgColor={'whiteAlpha.900'}
+      pl={2}
+      pr={0}
+      rounded={'md'}
       textStyle={'xs'}
+      display={'flex'}
+      alignItems={'center'}
+      justifyContent={'space-between'}
+      className="group"
+      borderWidth={2}
+      _hover={{ borderColor: 'blue.400' }}
     >
-      {task.title}
+      <Text>{task.title}</Text>
+      <Tooltip content={'Editar tarjeta'}>
+        <IconButton
+          size={'xs'}
+          variant={'ghost'}
+          opacity={0}
+          _groupHover={{ opacity: 1 }}
+        >
+          <LuPencil />
+        </IconButton>
+      </Tooltip>
     </ListItem>
   );
 }
