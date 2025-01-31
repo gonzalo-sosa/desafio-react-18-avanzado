@@ -22,7 +22,6 @@ import {
 } from 'react-icons/lu';
 import {
   DrawerRoot,
-  DrawerBackdrop,
   DrawerHeader,
   DrawerBody,
   DrawerContent,
@@ -71,9 +70,8 @@ function SideBarContent() {
 export default function SideBar() {
   return (
     <DrawerRoot placement={'start'}>
-      <DrawerBackdrop />
       <DrawerTrigger asChild>
-        <IconButton size="sm" marginLeft={2} position={'absolute'} left={-4}>
+        <IconButton size="sm" marginLeft={2}>
           <LuChevronRight />
         </IconButton>
       </DrawerTrigger>
