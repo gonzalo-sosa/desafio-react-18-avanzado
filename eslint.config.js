@@ -5,6 +5,7 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import eslintPluginPrettier from "eslint-plugin-prettier";
+import oxlint from "eslint-plugin-oxlint"
 
 export default tseslint.config(
   {
@@ -31,6 +32,7 @@ export default tseslint.config(
       "react-refresh": reactRefresh,
       typescript: tseslint,
       prettier: eslintPluginPrettier,
+      oxlint
     },
     rules: {
       ...js.configs.recommended.rules,
