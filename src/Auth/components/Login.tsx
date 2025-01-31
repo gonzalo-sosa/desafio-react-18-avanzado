@@ -16,6 +16,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Field } from '@/components/ui/field';
+import { PasswordInput } from '@/components/ui/password-input';
 
 const schema = z.object({
   email: z.string().email(),
@@ -83,7 +84,7 @@ export default function Login() {
               control={control}
               defaultValue=""
               name="password"
-              render={({ field }) => <Input {...field} />}
+              render={({ field }) => <PasswordInput {...field} />}
             />
           </Field>
           <Button type="submit" my={4} disabled={!isValid}>
