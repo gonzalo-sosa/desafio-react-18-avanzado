@@ -10,7 +10,7 @@ interface State {
 
 const useBoardsStore = create<State>((set) => ({
   boards: [],
-  addBoard: (board) => set((state) => ({ boards: [board, ...state.boards] })),
+  addBoard: (board) => set((state) => ({ boards: [...state.boards, board] })),
   updateBoard: (board) =>
     set((state) => ({
       // TODO: mejorar lógica para evitar que recorra todo el array
