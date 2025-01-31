@@ -1,5 +1,4 @@
 import { BoardId } from './Board';
-
 export default interface List {
   id: string;
   title: string;
