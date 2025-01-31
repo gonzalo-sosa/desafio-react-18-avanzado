@@ -73,7 +73,7 @@ export default function SideBar() {
     <DrawerRoot placement={'start'}>
       <DrawerBackdrop />
       <DrawerTrigger asChild>
-        <IconButton variant="outline" size="sm" marginLeft={2}>
+        <IconButton size="sm" marginLeft={2} position={'absolute'} left={-4}>
           <LuChevronRight />
         </IconButton>
       </DrawerTrigger>
