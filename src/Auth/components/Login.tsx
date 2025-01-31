@@ -61,6 +61,7 @@ export default function Login() {
           onSubmit={handleSubmit(handleLogin)}
           my={2}
           mb={4}
+          gap={2}
           flexDirection={'column'}
         >
           <Field

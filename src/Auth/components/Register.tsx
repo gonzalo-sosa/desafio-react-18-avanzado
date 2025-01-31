@@ -66,6 +66,7 @@ export default function Register() {
           onSubmit={handleSubmit(handleRegister)}
           my={2}
           mb={4}
+          gap={2}
           flexDirection={'column'}
         >
           <Field
