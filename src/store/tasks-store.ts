@@ -6,6 +6,7 @@ interface State {
   addTask: (task: Task) => void;
   updateTask: (task: Task) => void;
   deleteTask: (taskId: TaskId) => void;
+  setTasks: (tasks: Task[]) => void;
 }
 
 const useTasksStore = create<State>((set) => ({
@@ -22,6 +23,7 @@ const useTasksStore = create<State>((set) => ({
         return t.id !== taskId;
       }),
     })),
+  setTasks: (tasks) => set({ tasks }),
 }));
 
 export default useTasksStore;
