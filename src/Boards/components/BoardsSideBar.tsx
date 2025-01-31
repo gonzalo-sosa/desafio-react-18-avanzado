@@ -1,5 +1,11 @@
 import useBoardsStore from '@/store/boards-store';
-import { ListRoot, Heading, HStack, IconButton } from '@chakra-ui/react';
+import {
+  ListRoot,
+  Heading,
+  HStack,
+  IconButton,
+  useDrawerContext,
+} from '@chakra-ui/react';
 import { LuPlus, LuTrello } from 'react-icons/lu';
 import NewBoardForm from './NewBoardForm';
 import Popover from '../../components/Popover';
@@ -13,10 +19,13 @@ export default function BoardsSideBar() {
   const boards = useBoardsStore((s) => s.boards);
   const addBoard = useBoardsStore((s) => s.addBoard);
   const navigate = useNavigate();
+  const { setOpen } = useDrawerContext();
 
   const handleAddBoard = (data: Omit<Board, 'id'>) => {
-    addBoard({ ...data, id: '1' });
-    navigate('/boards/1');
+    const id = String(Date.now());
+    addBoard({ ...data, id });
+    navigate(`boards/${id}`);
+    setOpen(false);
   };
 
   return (
