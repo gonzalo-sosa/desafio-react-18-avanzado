@@ -10,6 +10,6 @@ dist
 *.yaml
 package.json
 tsconfig.*
-*.config.*
+**.config.**
 vercel.json
 src/components/ui

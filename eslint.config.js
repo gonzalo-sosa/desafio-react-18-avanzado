@@ -11,10 +11,13 @@ export default tseslint.config(
   {
     ignores: [
       "**/node_modules/**",
+      "**/.vercel/**",
       "**/dist",
-      "**/test",
+      "**/__mocks__",
+      "**/__tests__",
       "**/coverage",
       "**/vite.config.ts",
+      "**/vitest.config.ts",
       "**/src/components/ui/**"
     ],
   },
