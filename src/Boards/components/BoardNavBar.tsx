@@ -1,11 +1,11 @@
 import { useAuth } from '@/Auth';
+import ThreeDots from '@/components/icons/ThreeDots';
 import { Avatar } from '@/components/ui/avatar';
 import Board from '@/models/Board';
 import { Button, Flex, Heading, HStack, IconButton } from '@chakra-ui/react';
 import {
   LuChevronDown,
   LuCloudLightning,
-  LuDot,
   LuRocket,
   LuStar,
   LuTrello,
@@ -29,25 +29,25 @@ export default function BoardNavBar({ board }: BoardNavBarProps) {
     >
       <Flex flexDirection={'row'} alignItems={'center'} gap={2}>
         <Heading>{board.title}</Heading>
-        <IconButton size={'xs'}>
+        <IconButton size={'xs'} variant={'outline'}>
           <LuStar />
         </IconButton>
-        <IconButton size={'xs'}>
+        <IconButton size={'xs'} variant={'outline'}>
           <LuUsers />
         </IconButton>
         <Button size={'xs'}>
           <LuTrello />
           Tablero
         </Button>
-        <IconButton size={'xs'}>
+        <IconButton size={'xs'} variant={'outline'}>
           <LuChevronDown />
         </IconButton>
       </Flex>
       <Flex flexDirection={'row'} alignItems={'center'} gap={2}>
-        <IconButton size={'xs'}>
+        <IconButton size={'xs'} variant={'outline'}>
           <LuRocket />
         </IconButton>
-        <IconButton size={'xs'}>
+        <IconButton size={'xs'} variant={'outline'}>
           <LuCloudLightning />
         </IconButton>
         <Avatar name={getUser()?.name} size={'xs'} />
@@ -55,7 +55,9 @@ export default function BoardNavBar({ board }: BoardNavBarProps) {
           <LuUserPlus />
           Compartir
         </Button>
-        <LuDot />
+        <IconButton size={'xs'} variant={'outline'}>
+          <ThreeDots />
+        </IconButton>
       </Flex>
     </HStack>
   );
