@@ -34,6 +34,7 @@ export default function AddTaskForm({ onSubmit }: AddTaskFormProps) {
             <Input
               {...field}
               size={'xs'}
+              autoFocus
               placeholder={'Añade un título o pega un enlace'}
             />
           )}
