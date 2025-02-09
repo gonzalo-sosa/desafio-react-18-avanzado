@@ -30,7 +30,9 @@ export default function AddListForm({ onSubmit }: AddListFormProps) {
           name="title"
           control={control}
           defaultValue=""
-          render={({ field }) => <Input {...field} placeholder={'Lista...'} />}
+          render={({ field }) => (
+            <Input {...field} placeholder={'Lista...'} autoFocus />
+          )}
         />
       </Field>
     </form>
