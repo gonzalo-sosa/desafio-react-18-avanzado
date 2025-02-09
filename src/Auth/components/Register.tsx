@@ -19,9 +19,13 @@ import { Field } from '@/components/ui/field';
 import { PasswordInput } from '@/components/ui/password-input';
 
 const schema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-  confirmPassword: z.string().min(8),
+  email: z.string().email({ message: 'El correo no es válido' }),
+  password: z
+    .string()
+    .min(8, { message: 'La contraseña debe de tener al menos 8 caracteres' }),
+  confirmPassword: z
+    .string()
+    .min(8, { message: 'La contraseña debe de tener al menos 8 caracteres' }),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -32,9 +36,15 @@ export default function Register() {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    setError,
+    formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
   });
 
   if (getUser()) {
@@ -43,7 +53,7 @@ export default function Register() {
 
   const handleRegister = ({ email, password, confirmPassword }: FormData) => {
     if (password !== confirmPassword) {
-      alert('Las contraseñas no coinciden');
+      setError('confirmPassword', { message: 'Las contraseñas no coinciden' });
       return;
     }
     login({
@@ -66,7 +76,7 @@ export default function Register() {
           onSubmit={handleSubmit(handleRegister)}
           my={2}
           mb={4}
-          gap={2}
+          gap={4}
           flexDirection={'column'}
         >
           <Field
@@ -76,9 +86,10 @@ export default function Register() {
           >
             <Controller
               control={control}
-              defaultValue=""
               name="email"
-              render={({ field }) => <Input {...field} />}
+              render={({ field }) => (
+                <Input {...field} placeholder="correo@example.com" autoFocus />
+              )}
             />
           </Field>
           <Field
@@ -88,7 +99,6 @@ export default function Register() {
           >
             <Controller
               control={control}
-              defaultValue=""
               name="password"
               render={({ field }) => <PasswordInput {...field} />}
             />
@@ -100,12 +110,11 @@ export default function Register() {
           >
             <Controller
               control={control}
-              defaultValue=""
               name="confirmPassword"
               render={({ field }) => <PasswordInput {...field} />}
             />
           </Field>
-          <Button type="submit" my={4} disabled={!isValid}>
+          <Button type="submit" my={4}>
             Crear una cuenta
           </Button>
         </Flex>
