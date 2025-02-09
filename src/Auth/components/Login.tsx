@@ -19,8 +19,10 @@ import { Field } from '@/components/ui/field';
 import { PasswordInput } from '@/components/ui/password-input';
 
 const schema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
+  email: z.string().email({ message: 'El correo no es válido' }),
+  password: z
+    .string()
+    .min(8, { message: 'La contraseña debe de tener al menos 8 caracteres' }),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -31,16 +33,20 @@ export default function Login() {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
 
   if (getUser()) {
     return <Navigate to="/" />;
   }
 
-  const handleLogin = ({ email, password }: FormData) => {
+  const handleLogin = ({ email }: FormData) => {
     login({
       id: String(Date.now()),
       name: email.substring(0, email.indexOf('@')),
@@ -61,7 +67,7 @@ export default function Login() {
           onSubmit={handleSubmit(handleLogin)}
           my={2}
           mb={4}
-          gap={2}
+          gap={4}
           flexDirection={'column'}
         >
           <Field
@@ -71,9 +77,10 @@ export default function Login() {
           >
             <Controller
               control={control}
-              defaultValue=""
               name="email"
-              render={({ field }) => <Input {...field} />}
+              render={({ field }) => (
+                <Input {...field} autoFocus placeholder="correo@example.com" />
+              )}
             />
           </Field>
           <Field
@@ -83,12 +90,11 @@ export default function Login() {
           >
             <Controller
               control={control}
-              defaultValue=""
               name="password"
               render={({ field }) => <PasswordInput {...field} />}
             />
           </Field>
-          <Button type="submit" my={4} disabled={!isValid}>
+          <Button type="submit" my={4}>
             Iniciar sesión
           </Button>
         </Flex>
