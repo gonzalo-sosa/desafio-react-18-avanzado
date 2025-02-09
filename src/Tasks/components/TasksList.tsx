@@ -1,19 +1,11 @@
-import { ListId } from '@/models/List';
-import useTasksStore from '@/store/tasks-store';
-import { Button, HStack, IconButton, ListRoot, Text } from '@chakra-ui/react';
-import TaskItem from './TaskItem';
-import { useState } from 'react';
-import AddTaskForm from './AddTaskForm';
-import Task from '@/models/Task';
-import { LuImage, LuPlus } from 'react-icons/lu';
 import {
   closestCenter,
   DndContext,
   DragEndEvent,
   KeyboardSensor,
   PointerSensor,
-  useSensor,
   useSensors,
+  useSensor,
 } from '@dnd-kit/core';
 import {
   arrayMove,
@@ -21,18 +13,26 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import { Button, HStack, IconButton, ListRoot, Text } from '@chakra-ui/react';
+import { ListId } from '@/models/List';
+import { LuImage, LuPlus } from 'react-icons/lu';
+import { memo, useState } from 'react';
 import { Tooltip } from '@/components/ui/tooltip';
+import AddTaskForm from './AddTaskForm';
+import Task from '@/models/Task';
+import TaskItem from './TaskItem';
+import useTasksStore from '@/store/tasks';
 
 type TasksListProps = {
   listId: ListId;
 };
 
-export default function TasksList({ listId }: TasksListProps) {
-  const tasks = useTasksStore((s) => s.tasks).filter(
+function TasksList({ listId }: TasksListProps) {
+  const filteredTasks = useTasksStore((s) => s.tasks).filter(
     (t) => t.listId === listId,
   );
   const addTask = useTasksStore((s) => s.addTask);
-  const setTasks = useTasksStore((s) => s.setTasks);
+  const [tasks, setTasks] = useState(filteredTasks);
 
   const [showForm, setShowForm] = useState(false);
 
@@ -43,22 +43,11 @@ export default function TasksList({ listId }: TasksListProps) {
     }),
   );
 
-  const handleAddTask = (data: Pick<Task, 'title'>) => {
-    addTask({
-      id: String(Date.now()),
-      title: data.title,
-      description: '',
-      listId,
-    });
-
-    setShowForm(false);
-  };
-
   return (
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
+      onDragEnd={handleDragEndTask}
     >
       <ListRoot
         listStyle={'none'}
@@ -77,13 +66,13 @@ export default function TasksList({ listId }: TasksListProps) {
       ) : (
         <HStack>
           <Button
+            onClick={() => setShowForm(true)}
             variant={'ghost'}
+            size={'xs'}
+            rounded={'md'}
+            _hover={{ bg: 'gray.300' }}
             flex={1}
             justifyContent={'start'}
-            size={'xs'}
-            onClick={() => setShowForm(true)}
-            _hover={{ bg: 'gray.300' }}
-            rounded={'md'}
           >
             <LuPlus size={'xs'} />
             <Text marginLeft={2}>Añade una tarjeta</Text>
@@ -102,16 +91,33 @@ export default function TasksList({ listId }: TasksListProps) {
     </DndContext>
   );
 
-  function handleDragEnd(event: DragEndEvent) {
+  function handleAddTask(data: Pick<Task, 'title'>) {
+    const newTask = {
+      id: String(Date.now()),
+      title: data.title,
+      description: '',
+      listId,
+    };
+
+    setTasks((prevTasks) => [...prevTasks, newTask]);
+    addTask(newTask);
+    setShowForm(false);
+  }
+
+  function handleDragEndTask(event: DragEndEvent) {
     const { active, over } = event;
 
     if (!over || !over.id) return;
 
     if (active.id !== over.id) {
-      const oldIndex = tasks.findIndex(({ id }) => id === active.id);
-      const newIndex = tasks.findIndex(({ id }) => id === over.id);
+      const activeTaskIndex = tasks.findIndex(({ id }) => id === active.id);
+      const overTaskIndex = tasks.findIndex(({ id }) => id === over.id);
 
-      setTasks(arrayMove(tasks, oldIndex, newIndex));
+      setTasks((prevTasks) =>
+        arrayMove(prevTasks, activeTaskIndex, overTaskIndex),
+      );
     }
   }
 }
+
+export default memo(TasksList);
