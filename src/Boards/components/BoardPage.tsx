@@ -1,13 +1,13 @@
-import useBoardsStore from '@/store/boards-store';
 import { Box, Button, Flex, ListItem } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
-import BoardNavBar from './BoardNavBar';
 import { ListCard, AddListForm } from '@/Lists';
-import useListsStore from '@/store/lists-store';
+import { LuPlus } from 'react-icons/lu';
+import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import Board from '@/models/Board';
-import { LuPlus } from 'react-icons/lu';
+import BoardNavBar from './BoardNavBar';
 import ListCardContainer from '@/Lists/components/ListCardContainer';
+import useBoardsStore from '@/store/boards';
+import useListsStore from '@/store/lists';
 
 // type BoardPageProps = {};
 export default function BoardPage() {
