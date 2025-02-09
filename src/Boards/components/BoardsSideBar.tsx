@@ -1,19 +1,17 @@
-import useBoardsStore from '@/store/boards-store';
 import {
-  ListRoot,
   Heading,
   HStack,
   IconButton,
+  ListRoot,
   useDrawerContext,
 } from '@chakra-ui/react';
 import { LuPlus, LuTrello } from 'react-icons/lu';
-import NewBoardForm from './NewBoardForm';
-import Popover from '../../components/Popover';
-import Board from '@/models/Board';
-import SideBarItem from '@/components/SideBarItem';
 import { useNavigate } from 'react-router-dom';
-
-// type Props = {};
+import Board from '@/models/Board';
+import NewBoardForm from './NewBoardForm';
+import Popover from '@/components/Popover';
+import SideBarItem from '@/components/SideBarItem';
+import useBoardsStore from '@/store/boards';
 
 export default function BoardsSideBar() {
   const boards = useBoardsStore((s) => s.boards);
