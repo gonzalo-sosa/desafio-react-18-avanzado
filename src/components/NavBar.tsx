@@ -24,7 +24,7 @@ export default function NavBar() {
   const { getUser, logout } = useAuthContext();
 
   return (
-    <HStack padding={2} as={'nav'} justifyContent={'space-between'}>
+    <HStack as={'nav'} padding={2} justifyContent={'space-between'}>
       <Flex gap={2}>
         <MenuRoot>
           <MenuTrigger asChild>
@@ -34,10 +34,6 @@ export default function NavBar() {
           </MenuTrigger>
           <MenuContent>
             <MenuItem value="new-txt">New Text File</MenuItem>
-            <MenuItem value="new-file">New File...</MenuItem>
-            <MenuItem value="new-win">New Window</MenuItem>
-            <MenuItem value="open-file">Open File...</MenuItem>
-            <MenuItem value="export">Export</MenuItem>
           </MenuContent>
         </MenuRoot>
         <Logo />

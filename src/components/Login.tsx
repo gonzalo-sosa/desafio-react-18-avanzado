@@ -4,6 +4,7 @@ import {
   Fieldset,
   Grid,
   Heading,
+  Icon,
   Image,
   Input,
   Stack,
@@ -11,12 +12,12 @@ import {
 } from '@chakra-ui/react';
 import { useAuthContext } from '../Auth';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { LuTrello } from 'react-icons/lu';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Field } from '@/components/ui/field';
 import { PasswordInput } from '@/components/ui/password-input';
+import Trello from './icons/Trello';
 
 const schema = z.object({
   email: z.string().email({ message: 'El correo no es válido' }),
@@ -60,8 +61,12 @@ export default function Login() {
     <Grid placeItems={'center'}>
       <Box display="flex" flexDirection="column" width="55%" maxWidth="500px">
         <Box display="flex" flexDirection="column" alignItems="center" mb={3}>
-          <LuTrello size={100} />
-          <Heading textStyle={'md'}>Inicia sesión para continuar</Heading>
+          <Icon w={'64px'} h={'64px'}>
+            <Trello />
+          </Icon>
+          <Heading as="h1" fontWeight={'normal'} textStyle={'md'} mt={6}>
+            Inicia sesión para continuar
+          </Heading>
         </Box>
         <form onSubmit={handleSubmit(handleLogin)}>
           <Fieldset.Root>
@@ -175,7 +180,12 @@ export default function Login() {
             Slack
           </Button>
         </Stack>
-        <Box display="flex" flexDirection="column" alignItems="center">
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          color={'blue.500'}
+        >
           <Link to="/register">¿No tiene una cuenta? Crea una</Link>
           <br />
         </Box>

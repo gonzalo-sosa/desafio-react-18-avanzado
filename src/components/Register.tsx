@@ -4,6 +4,7 @@ import {
   Fieldset,
   Grid,
   Heading,
+  Icon,
   Image,
   Input,
   Stack,
@@ -11,12 +12,12 @@ import {
 } from '@chakra-ui/react';
 import { useAuthContext } from '../Auth';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { LuTrello } from 'react-icons/lu';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Field } from '@/components/ui/field';
 import { PasswordInput } from '@/components/ui/password-input';
+import Trello from './icons/Trello';
 
 const schema = z.object({
   email: z.string().email({ message: 'El correo no es válido' }),
@@ -69,8 +70,12 @@ export default function Register() {
     <Grid placeItems={'center'}>
       <Box display="flex" flexDirection="column" width="55%" maxWidth="500px">
         <Box display="flex" flexDirection="column" alignItems="center" mb={3}>
-          <LuTrello size={100} />
-          <Heading textStyle={'md'}>Crear una cuenta</Heading>
+          <Icon w={'64px'} h={'64px'}>
+            <Trello />
+          </Icon>
+          <Heading as="h1" fontWeight={'normal'} textStyle={'md'} mt={6}>
+            Crear una cuenta
+          </Heading>
         </Box>
         <form onSubmit={handleSubmit(handleRegister)}>
           <Fieldset.Root>
@@ -177,7 +182,7 @@ export default function Register() {
         </form>
         <Stack>
           <Text textAlign={'center'} color={'gray.500'}>
-            O regístrate con
+            O continúa con
           </Text>
           <Button w={'100%'} my={1} variant={'outline'}>
             <Image
@@ -216,7 +221,12 @@ export default function Register() {
             Slack
           </Button>
         </Stack>
-        <Box display="flex" flexDirection="column" alignItems="center">
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          color={'blue.500'}
+        >
           <Link to="/login">¿Ya tienes una cuenta? Inicia sesión</Link>
           <br />
         </Box>
