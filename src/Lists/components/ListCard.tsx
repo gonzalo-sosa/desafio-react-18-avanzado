@@ -12,18 +12,23 @@ import List from '@/models/List';
 import TasksList from '@/Tasks/components/TasksList';
 import ThreeDots from '@/components/icons/ThreeDots';
 import useListsStore from '@/store/lists';
+import { memo } from 'react';
 
 type ListCardProps = {
   list: List;
 };
 
-export default function ListCard({ list }: ListCardProps) {
+function ListCard({ list }: ListCardProps) {
   const [currentList] = useListsStore((s) => s.lists).filter(
     (l) => l.id === list.id,
   );
+  const updateList = useListsStore((s) => s.updateList);
 
   const editableTitle = useEditable({ defaultValue: list.title });
-  currentList.title = editableTitle.value;
+
+  function handleChangeListTitle() {
+    updateList({ ...currentList, title: editableTitle.value });
+  }
 
   return (
     <CardRoot
@@ -37,7 +42,7 @@ export default function ListCard({ list }: ListCardProps) {
         <HStack justifyContent={'space-between'}>
           <Editable.RootProvider value={editableTitle}>
             <Editable.Preview />
-            <Editable.Input />
+            <Editable.Input onBlur={handleChangeListTitle} />
           </Editable.RootProvider>
           <Tooltip content={'Enumerar acciones'}>
             <IconButton
@@ -56,3 +61,5 @@ export default function ListCard({ list }: ListCardProps) {
     </CardRoot>
   );
 }
+
+export default memo(ListCard);
