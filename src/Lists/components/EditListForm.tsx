@@ -23,6 +23,7 @@ export default function EditListForm({ onSubmit }: EditListFormProps) {
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
+    defaultValues: { title: '' },
   });
 
   return (
@@ -38,10 +39,7 @@ export default function EditListForm({ onSubmit }: EditListFormProps) {
             <Controller
               name="title"
               control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <Input {...field} placeholder={'Lista...'} autoFocus />
-              )}
+              render={({ field }) => <Input {...field} size={'xs'} autoFocus />}
             />
           </Field>
         </Fieldset.Content>

@@ -1,28 +1,32 @@
 import Popover from '@/components/Popover';
 import { Tooltip } from '@/components/ui/tooltip';
 import Task from '@/models/Task';
-import { IconButton, ListItem, Text } from '@chakra-ui/react';
+import { IconButton, ListItem, PopoverRootProps, Text } from '@chakra-ui/react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { LuPencil } from 'react-icons/lu';
 import EditTaskForm from './EditTaskForm';
 import useTasksStore from '@/store/tasks';
-import { MouseEvent, useState } from 'react';
 
 type TaskItemProps = {
   task: Task;
+  draggable: boolean;
+  popoverProps: Omit<PopoverRootProps, 'children'>;
 };
 
-export default function TaskItem({ task }: TaskItemProps) {
+export default function TaskItem({
+  task,
+  draggable,
+  popoverProps,
+}: TaskItemProps) {
   const updateTask = useTasksStore((s) => s.updateTask);
 
-  const [popoverOpen, setPopoverOpen] = useState(false);
-
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: task.id });
+    useSortable({ id: task.id, disabled: !draggable });
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
+    cursor: draggable ? 'grab' : 'default',
   };
 
   return (
@@ -47,10 +51,9 @@ export default function TaskItem({ task }: TaskItemProps) {
       <Text>{task.title}</Text>
       <Popover
         popoverRootProps={{
+          ...popoverProps,
           positioning: { placement: 'right' },
           modal: true,
-          open: popoverOpen,
-          onOpenChange: (e) => setPopoverOpen(e.open),
         }}
         trigger={
           <IconButton
@@ -58,7 +61,6 @@ export default function TaskItem({ task }: TaskItemProps) {
             variant={'ghost'}
             opacity={0}
             _groupHover={{ opacity: 1 }}
-            onClick={handleOpenPopover}
           >
             <Tooltip content={'Editar tarjeta'}>
               <LuPencil />
@@ -71,13 +73,8 @@ export default function TaskItem({ task }: TaskItemProps) {
     </ListItem>
   );
 
-  function handleOpenPopover(e: MouseEvent<HTMLButtonElement>) {
-    e.preventDefault();
-    setPopoverOpen(true);
-  }
-
   function handleEditTask(data: Partial<Omit<Task, 'id'>>) {
     updateTask({ ...task, ...data });
-    setPopoverOpen(false);
+    popoverProps.onOpenChange?.({ open: false });
   }
 }

@@ -20,10 +20,12 @@ type ListCardProps = {
   list: List;
 };
 
-export function ListCard({ list }: ListCardProps) {
+function ListCard({ list }: ListCardProps) {
   const updateList = useListsStore((s) => s.updateList);
 
-  const editableTitle = useEditable({ defaultValue: list.title });
+  const editableTitle = useEditable({
+    value: list.title,
+  });
 
   const [popoverOpen, setPopoverOpen] = useState(false);
 

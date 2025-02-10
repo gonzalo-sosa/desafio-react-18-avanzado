@@ -23,10 +23,11 @@ export default function EditTaskForm({ onSubmit }: EditTaskFormProps) {
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
+    defaultValues: { title: '' },
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form data-no-dnd="true" onSubmit={handleSubmit(onSubmit)}>
       <Fieldset.Root>
         <Fieldset.Legend>Editar tarjeta</Fieldset.Legend>
         <Fieldset.Content>
@@ -38,7 +39,6 @@ export default function EditTaskForm({ onSubmit }: EditTaskFormProps) {
             <Controller
               name="title"
               control={control}
-              defaultValue=""
               render={({ field }) => <Input {...field} size={'xs'} autoFocus />}
             />
           </Field>

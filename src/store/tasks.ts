@@ -1,4 +1,7 @@
+import { ListId } from '@/models/List';
 import Task, { TaskId } from '@/models/Task';
+import { arrayMove } from '@dnd-kit/sortable';
+import { useCallback } from 'react';
 import { mountStoreDevtool } from 'simple-zustand-devtools';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -12,6 +15,7 @@ interface Actions {
   addTask: (task: Task) => void;
   updateTask: (task: Task) => void;
   deleteTask: (taskId: TaskId) => void;
+  reorderTasks: (activeTaskId: TaskId, overTaskId: TaskId) => void;
 }
 
 const useTasksStore = create<State & Actions>()(
@@ -32,6 +36,22 @@ const useTasksStore = create<State & Actions>()(
             return t.id !== taskId;
           }),
         })),
+      reorderTasks: (activeTaskId: TaskId, overTaskId: TaskId) => {
+        set((state) => {
+          const activeTaskIndex = state.tasks.findIndex(
+            (t) => t.id === activeTaskId,
+          );
+          const overTaskIndex = state.tasks.findIndex(
+            (t) => t.id === overTaskId,
+          );
+
+          if (activeTaskIndex === -1 || overTaskIndex === -1) return state;
+
+          return {
+            tasks: arrayMove(state.tasks, activeTaskIndex, overTaskIndex),
+          };
+        });
+      },
     })),
     {
       name: 'tasks',
@@ -40,6 +60,14 @@ const useTasksStore = create<State & Actions>()(
 );
 
 export default useTasksStore;
+
+export const useTask = (id: TaskId) =>
+  useTasksStore(useCallback((s) => s.tasks.find((t) => t.id === id), [id]));
+
+export const useTasksByList = (id: ListId) =>
+  useTasksStore(
+    useCallback((s) => s.tasks.filter((t) => t.listId === id), [id]),
+  );
 
 // eslint-disable-next-line no-undef
 if (process.env.NODE_ENV === 'development') {

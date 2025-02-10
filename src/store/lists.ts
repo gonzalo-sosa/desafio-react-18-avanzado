@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { mountStoreDevtool } from 'simple-zustand-devtools';
+import { useCallback } from 'react';
 
 interface State {
   lists: List[];
@@ -38,6 +39,9 @@ const useListsStore = create<State & Actions>()(
 );
 
 export default useListsStore;
+
+export const useList = (id: ListId) =>
+  useListsStore(useCallback((s) => s.lists.find((l) => l.id === id), [id]));
 
 // eslint-disable-next-line no-undef
 if (process.env.NODE_ENV === 'development') {
