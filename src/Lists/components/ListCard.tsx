@@ -14,20 +14,35 @@ import useListsStore from '@/store/lists';
 import { memo, useState } from 'react';
 import Popover from '@/components/Popover';
 import EditListForm from './EditListForm';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 type ListCardProps = {
   list: List;
+  draggable: boolean;
 };
 
-function ListCard({ list }: ListCardProps) {
+function ListCard({ list, draggable }: ListCardProps) {
   const updateList = useListsStore((s) => s.updateList);
 
   const [editableTitle, setEditableTitle] = useState(list.title);
 
   const [popoverOpen, setPopoverOpen] = useState(false);
 
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: list.id, disabled: !draggable });
+  const style = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+    cursor: draggable ? 'grab' : 'default',
+  };
+
   return (
     <CardRoot
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      style={style}
       minW={'280px'}
       maxW={'280px'}
       rounded={'2xl'}

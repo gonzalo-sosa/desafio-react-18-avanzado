@@ -113,9 +113,7 @@ export default function TasksList({ listId }: TasksListProps) {
     setShowForm(false);
   }
 
-  function handleDragEndTask(event: DragEndEvent) {
-    const { active, over } = event;
-
+  function handleDragEndTask({ active, over }: DragEndEvent) {
     if (!over || active.id === over.id) return;
 
     reorderTasks(active.id.toString(), over.id.toString());

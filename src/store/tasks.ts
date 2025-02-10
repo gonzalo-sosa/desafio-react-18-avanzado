@@ -64,9 +64,9 @@ export default useTasksStore;
 export const useTask = (id: TaskId) =>
   useTasksStore(useCallback((s) => s.tasks.find((t) => t.id === id), [id]));
 
-export const useTasksByList = (id: ListId) =>
+export const useTasksByList = (listId: ListId) =>
   useTasksStore(
-    useCallback((s) => s.tasks.filter((t) => t.listId === id), [id]),
+    useCallback((s) => s.tasks.filter((t) => t.listId === listId), [listId]),
   );
 
 // eslint-disable-next-line no-undef

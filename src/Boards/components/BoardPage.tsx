@@ -6,34 +6,27 @@ import { useState } from 'react';
 import Board from '@/models/Board';
 import BoardNavBar from './BoardNavBar';
 import ListCardContainer from '@/Lists/components/ListCardContainer';
-import useBoardsStore from '@/store/boards';
-import useListsStore from '@/store/lists';
+import { useListsStore } from '@/store';
+import {
+  horizontalListSortingStrategy,
+  SortableContext,
+} from '@dnd-kit/sortable';
+import { useBoard } from '@/store/boards';
+import { useListsByBoard } from '@/store/lists';
+import { DragEndEvent } from '@dnd-kit/core';
 
-// type BoardPageProps = {};
 export default function BoardPage() {
   const { boardId } = useParams();
 
-  const boards = useBoardsStore((s) => s.boards);
-  const [board] = boards.filter((b) => b.id === boardId);
+  const board = useBoard(boardId!);
 
-  const lists = useListsStore((s) => s.lists).filter(
-    (l) => l.boardId === boardId,
-  );
+  const lists = useListsByBoard(boardId!);
   const addList = useListsStore((s) => s.addList);
+  const reorderLists = useListsStore((s) => s.reorderLists);
 
   const [showForm, setShowForm] = useState(false);
 
-  const handleAddList = (data: Pick<Board, 'title'>) => {
-    const newList = {
-      id: String(Date.now()),
-      title: data.title,
-      boardId: board.id,
-    };
-
-    addList(newList);
-
-    setShowForm(false);
-  };
+  if (!board) return null;
 
   return (
     <Box>
@@ -47,12 +40,17 @@ export default function BoardPage() {
         overflowX={'auto'}
         padding={2}
       >
-        <ListCardContainer id={'list-container'}>
-          {lists.map((list) => (
-            <ListItem key={list.id}>
-              <ListCard key={list.id} list={list} />
-            </ListItem>
-          ))}
+        <ListCardContainer onDragEndList={handleDragEndList}>
+          <SortableContext
+            items={lists}
+            strategy={horizontalListSortingStrategy}
+          >
+            {lists.map((list) => (
+              <ListItem key={list.id}>
+                <ListCard key={list.id} list={list} draggable />
+              </ListItem>
+            ))}
+          </SortableContext>
         </ListCardContainer>
 
         {showForm ? (
@@ -70,4 +68,23 @@ export default function BoardPage() {
       </Flex>
     </Box>
   );
+
+  function handleAddList(data: Pick<Board, 'title'>) {
+    if (!board) return;
+
+    const newList = {
+      id: String(Date.now()),
+      title: data.title,
+      boardId: board.id,
+    };
+
+    addList(newList);
+    setShowForm(false);
+  }
+
+  function handleDragEndList({ active, over }: DragEndEvent) {
+    if (!over || active.id === over.id) return;
+
+    reorderLists(active.id.toString(), over.id.toString());
+  }
 }

@@ -1,4 +1,5 @@
 import Board, { BoardId } from '@/models/Board';
+import { useCallback } from 'react';
 import { mountStoreDevtool } from 'simple-zustand-devtools';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -39,6 +40,9 @@ const useBoardsStore = create<State & Actions>()(
 );
 
 export default useBoardsStore;
+
+export const useBoard = (id: BoardId) =>
+  useBoardsStore(useCallback((s) => s.boards.find((b) => b.id === id), [id]));
 
 // eslint-disable-next-line no-undef
 if (process.env.NODE_ENV === 'development') {
