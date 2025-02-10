@@ -4,6 +4,7 @@ import Register from '@/components/Register';
 import Login from '@/components/Login';
 import WorkSpacePage from './WorkSpace/components/WorkSpacePage';
 import BoardPage from './Boards/components/BoardPage';
+import NotFound from './components/NotFound';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <ProtectedRoutes />,
+    errorElement: <NotFound />,
     children: [
       {
         path: 'boards/:boardId',
