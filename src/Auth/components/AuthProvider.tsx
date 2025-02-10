@@ -20,7 +20,6 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
       const parsedData = JSON.parse(savedUser);
-      setUser(parsedData);
       return parsedData;
     }
 
