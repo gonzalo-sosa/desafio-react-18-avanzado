@@ -37,6 +37,8 @@ function TasksList({ listId }: TasksListProps) {
 
   const [showForm, setShowForm] = useState(false);
 
+  const [activePopoverId, setActivePopoverId] = useState<string | null>(null);
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -58,7 +60,16 @@ function TasksList({ listId }: TasksListProps) {
       >
         <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
           {tasks.map((task) => (
-            <TaskItem key={task.id} task={task} />
+            <TaskItem
+              key={task.id}
+              task={task}
+              draggable={!activePopoverId}
+              popoverProps={{
+                open: activePopoverId === task.id,
+                onOpenChange: (e) =>
+                  setActivePopoverId(e.open ? task.id : null),
+              }}
+            />
           ))}
         </SortableContext>
       </ListRoot>
