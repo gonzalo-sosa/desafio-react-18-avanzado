@@ -1,4 +1,5 @@
 import Task, { TaskId } from '@/models/Task';
+import { mountStoreDevtool } from 'simple-zustand-devtools';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
@@ -39,3 +40,8 @@ const useTasksStore = create<State & Actions>()(
 );
 
 export default useTasksStore;
+
+// eslint-disable-next-line no-undef
+if (process.env.NODE_ENV === 'development') {
+  mountStoreDevtool('Tasks Store', useTasksStore);
+}

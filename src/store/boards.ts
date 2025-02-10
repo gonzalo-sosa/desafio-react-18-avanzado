@@ -1,4 +1,5 @@
 import Board, { BoardId } from '@/models/Board';
+import { mountStoreDevtool } from 'simple-zustand-devtools';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
@@ -38,3 +39,8 @@ const useBoardsStore = create<State & Actions>()(
 );
 
 export default useBoardsStore;
+
+// eslint-disable-next-line no-undef
+if (process.env.NODE_ENV === 'development') {
+  mountStoreDevtool('Boards Store', useBoardsStore);
+}

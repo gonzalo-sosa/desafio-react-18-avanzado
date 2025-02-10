@@ -2,6 +2,7 @@ import List, { ListId } from '@/models/List';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
+import { mountStoreDevtool } from 'simple-zustand-devtools';
 
 interface State {
   lists: List[];
@@ -37,3 +38,8 @@ const useListsStore = create<State & Actions>()(
 );
 
 export default useListsStore;
+
+// eslint-disable-next-line no-undef
+if (process.env.NODE_ENV === 'development') {
+  mountStoreDevtool('Lists Store', useListsStore);
+}
