@@ -5,7 +5,6 @@ import {
   Editable,
   HStack,
   IconButton,
-  useEditable,
 } from '@chakra-ui/react';
 import { Tooltip } from '@/components/ui/tooltip';
 import List from '@/models/List';
@@ -23,9 +22,7 @@ type ListCardProps = {
 function ListCard({ list }: ListCardProps) {
   const updateList = useListsStore((s) => s.updateList);
 
-  const editableTitle = useEditable({
-    value: list.title,
-  });
+  const [editableTitle, setEditableTitle] = useState(list.title);
 
   const [popoverOpen, setPopoverOpen] = useState(false);
 
@@ -39,10 +36,13 @@ function ListCard({ list }: ListCardProps) {
     >
       <CardHeader>
         <HStack justifyContent={'space-between'}>
-          <Editable.RootProvider value={editableTitle}>
+          <Editable.Root
+            value={editableTitle}
+            onValueChange={(e) => setEditableTitle(e.value)}
+          >
             <Editable.Preview />
             <Editable.Input onBlur={handleChangeListTitle} />
-          </Editable.RootProvider>
+          </Editable.Root>
           <Popover
             popoverRootProps={{
               positioning: { placement: 'right' },
@@ -73,7 +73,7 @@ function ListCard({ list }: ListCardProps) {
   );
 
   function handleChangeListTitle() {
-    updateList({ ...list, title: editableTitle.value });
+    updateList({ ...list, title: editableTitle });
   }
 
   function handleEditList(data: Partial<Omit<List, 'id'>>) {
