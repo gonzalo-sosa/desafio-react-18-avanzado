@@ -1,7 +1,7 @@
 import {
   Box,
   Button,
-  Flex,
+  Fieldset,
   Grid,
   Heading,
   Image,
@@ -9,7 +9,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../Auth/hooks/useAuthContext';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { LuTrello } from 'react-icons/lu';
 import { Controller, useForm } from 'react-hook-form';
@@ -33,8 +33,9 @@ export default function Login() {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, touchedFields, isSubmitted, isValid },
   } = useForm<FormData>({
+    mode: 'onBlur',
     resolver: zodResolver(schema),
     defaultValues: {
       email: '',
@@ -62,42 +63,77 @@ export default function Login() {
           <LuTrello size={100} />
           <Heading textStyle={'md'}>Inicia sesión para continuar</Heading>
         </Box>
-        <Flex
-          as={'form'}
-          onSubmit={handleSubmit(handleLogin)}
-          my={2}
-          mb={4}
-          gap={4}
-          flexDirection={'column'}
-        >
-          <Field
-            label="Email"
-            invalid={!!errors.email}
-            errorText={errors.email?.message}
-          >
-            <Controller
-              control={control}
-              name="email"
-              render={({ field }) => (
-                <Input {...field} autoFocus placeholder="correo@example.com" />
-              )}
-            />
-          </Field>
-          <Field
-            label="Contraseña"
-            invalid={!!errors.password}
-            errorText={errors.password?.message}
-          >
-            <Controller
-              control={control}
-              name="password"
-              render={({ field }) => <PasswordInput {...field} />}
-            />
-          </Field>
-          <Button type="submit" my={4}>
-            Iniciar sesión
-          </Button>
-        </Flex>
+        <form onSubmit={handleSubmit(handleLogin)}>
+          <Fieldset.Root>
+            <Fieldset.Content>
+              <Field
+                label="Email"
+                invalid={(isSubmitted || touchedFields.email) && !!errors.email}
+                errorText={
+                  isSubmitted || touchedFields.email
+                    ? errors.email?.message
+                    : undefined
+                }
+              >
+                <Controller
+                  control={control}
+                  name="email"
+                  render={({ field, fieldState: { error, isTouched } }) => {
+                    const showFeedback = isSubmitted || isTouched;
+                    return (
+                      <Input
+                        {...field}
+                        autoFocus
+                        placeholder="correo@example.com"
+                        borderColor={
+                          showFeedback
+                            ? error
+                              ? 'red.500'
+                              : 'green.500'
+                            : undefined
+                        }
+                      />
+                    );
+                  }}
+                />
+              </Field>
+              <Field
+                label="Contraseña"
+                invalid={
+                  (isSubmitted || touchedFields.password) && !!errors.password
+                }
+                errorText={
+                  isSubmitted || touchedFields.password
+                    ? errors.password?.message
+                    : undefined
+                }
+              >
+                <Controller
+                  control={control}
+                  name="password"
+                  render={({ field, fieldState: { isTouched, error } }) => {
+                    const showFeedback = isSubmitted || isTouched;
+                    return (
+                      <PasswordInput
+                        {...field}
+                        borderColor={
+                          showFeedback
+                            ? error
+                              ? 'red.500'
+                              : 'green.500'
+                            : undefined
+                        }
+                      />
+                    );
+                  }}
+                />
+              </Field>
+            </Fieldset.Content>
+            <Button type="submit" my={4} disabled={!isValid}>
+              Iniciar sesión
+            </Button>
+          </Fieldset.Root>
+        </form>
         <Stack>
           <Text textAlign={'center'} color={'gray.500'}>
             O continúa con
