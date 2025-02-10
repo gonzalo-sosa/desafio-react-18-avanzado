@@ -5,6 +5,7 @@ import Login from '@/components/Login';
 import WorkSpacePage from './WorkSpace/components/WorkSpacePage';
 import BoardPage from './Boards/components/BoardPage';
 import NotFound from './components/NotFound';
+import { WorkSpaceEmpty } from './WorkSpace';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
     element: <ProtectedRoutes />,
     errorElement: <NotFound />,
     children: [
+      {
+        index: true,
+        element: <WorkSpaceEmpty />,
+      },
       {
         path: 'boards/:boardId',
         element: <BoardPage />,
