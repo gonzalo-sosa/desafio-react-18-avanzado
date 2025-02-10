@@ -1,6 +1,7 @@
 export default interface Board {
   id: string;
   title: string;
+  visibility: string[];
   description?: string;
 }
 
