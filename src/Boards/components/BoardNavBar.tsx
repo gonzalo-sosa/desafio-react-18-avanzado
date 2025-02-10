@@ -1,4 +1,3 @@
-import { useAuth } from '@/Auth';
 import ThreeDots from '@/components/icons/ThreeDots';
 import { Avatar } from '@/components/ui/avatar';
 import Board from '@/models/Board';
@@ -12,13 +11,14 @@ import {
   LuUserPlus,
   LuUsers,
 } from 'react-icons/lu';
+import { useAuthContext } from '@/Auth';
 
 type BoardNavBarProps = {
   board: Board;
 };
 
 export default function BoardNavBar({ board }: BoardNavBarProps) {
-  const { getUser } = useAuth();
+  const { getUser } = useAuthContext();
 
   return (
     <HStack

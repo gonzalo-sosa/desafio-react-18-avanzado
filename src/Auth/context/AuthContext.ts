@@ -1,8 +1,8 @@
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 import AuthType from '../model';
 
-const AuthContext = createContext<AuthType>({} as AuthType);
-
+export const AuthContext = createContext<AuthType>({} as AuthType);
 AuthContext.displayName = 'AuthContext';
 
-export default AuthContext;
+const useAuthContext = () => useContext(AuthContext);
+export default useAuthContext;

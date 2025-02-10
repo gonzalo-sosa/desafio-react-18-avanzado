@@ -1,4 +1,3 @@
-import { useAuth } from '@/Auth';
 import {
   Button,
   Flex,
@@ -19,9 +18,10 @@ import { MenuItem, MenuRoot, MenuTrigger } from './ui/menu';
 import Logo from './Logo';
 import DropDown from './DropDown';
 import { InputGroup } from './ui/input-group';
+import { useAuthContext } from '@/Auth';
 
 export default function NavBar() {
-  const { getUser, logout } = useAuth();
+  const { getUser, logout } = useAuthContext();
 
   return (
     <HStack padding={2} as={'nav'} justifyContent={'space-between'}>

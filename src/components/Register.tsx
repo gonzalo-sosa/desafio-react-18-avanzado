@@ -9,7 +9,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import useAuthContext from '../Auth/hooks/useAuthContext';
+import { useAuthContext } from '../Auth';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { LuTrello } from 'react-icons/lu';
 import { Controller, useForm } from 'react-hook-form';

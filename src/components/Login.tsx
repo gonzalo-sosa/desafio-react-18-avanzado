@@ -9,7 +9,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import useAuth from '../Auth/hooks/useAuthContext';
+import { useAuthContext } from '../Auth';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { LuTrello } from 'react-icons/lu';
 import { Controller, useForm } from 'react-hook-form';
@@ -28,7 +28,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function Login() {
-  const { getUser, login } = useAuth();
+  const { getUser, login } = useAuthContext();
   const navigate = useNavigate();
   const {
     control,
