@@ -22,6 +22,7 @@ import AddTaskForm from './AddTaskForm';
 import Task from '@/models/Task';
 import TaskItem from './TaskItem';
 import useTasksStore from '@/store/tasks';
+import '@/customSensors'; // Para inhabilitar drag and drop para botones o elementos con el atributo data-no-dnd
 
 type TasksListProps = {
   listId: ListId;
