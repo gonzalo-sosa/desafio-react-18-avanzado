@@ -8,7 +8,7 @@ const customHandleEvent = (element: HTMLElement | null) => {
   let cur = element;
 
   while (cur) {
-    if (IGNORE_TAGS.includes(cur.tagName) || cur.dataset.noDnd) {
+    if (IGNORE_TAGS.includes(cur.tagName) || cur.dataset.noDnd === 'true') {
       return false;
     }
     cur = cur.parentElement;
