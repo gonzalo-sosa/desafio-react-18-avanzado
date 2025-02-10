@@ -22,6 +22,7 @@ export default function BoardNavBar({ board }: BoardNavBarProps) {
 
   return (
     <HStack
+      as={'nav'}
       justifyContent={'space-between'}
       padding={2}
       borderWidth={2}
@@ -44,10 +45,18 @@ export default function BoardNavBar({ board }: BoardNavBarProps) {
         </IconButton>
       </Flex>
       <Flex flexDirection={'row'} alignItems={'center'} gap={2}>
-        <IconButton size={'xs'} variant={'outline'}>
+        <IconButton
+          size={'xs'}
+          variant={'outline'}
+          display={{ base: 'none', lg: 'initial' }}
+        >
           <LuRocket />
         </IconButton>
-        <IconButton size={'xs'} variant={'outline'}>
+        <IconButton
+          size={'xs'}
+          variant={'outline'}
+          display={{ base: 'none', lg: 'initial' }}
+        >
           <LuCloudLightning />
         </IconButton>
         <Avatar name={getUser()?.name} size={'xs'} />

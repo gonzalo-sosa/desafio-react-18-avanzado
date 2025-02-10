@@ -1,4 +1,4 @@
-import { Box, Button, Flex, ListItem } from '@chakra-ui/react';
+import { Button, Flex, ListItem, Stack } from '@chakra-ui/react';
 import { ListCard, AddListForm } from '@/Lists';
 import { LuPlus } from 'react-icons/lu';
 import { useParams } from 'react-router-dom';
@@ -29,16 +29,17 @@ export default function BoardPage() {
   if (!board) return null;
 
   return (
-    <Box>
+    <Stack h={'vh'}>
       <BoardNavBar board={board} />
       <Flex
-        h={'100vh'}
-        w={'100%'}
-        flexDirection={'row'}
-        gap={4}
-        flexWrap={'nowrap'}
+        flex={1}
+        w={'full'}
+        h={'full'}
         overflowX={'auto'}
+        flexDirection={'row'}
+        flexWrap={'nowrap'}
         padding={2}
+        gap={4}
       >
         <ListCardContainer onDragEndList={handleDragEndList}>
           <SortableContext
@@ -66,7 +67,7 @@ export default function BoardPage() {
           </Button>
         )}
       </Flex>
-    </Box>
+    </Stack>
   );
 
   function handleAddList(data: Pick<Board, 'title'>) {
