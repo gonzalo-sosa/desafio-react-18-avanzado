@@ -12,23 +12,20 @@ import List from '@/models/List';
 import TasksList from '@/Tasks/components/TasksList';
 import ThreeDots from '@/components/icons/ThreeDots';
 import useListsStore from '@/store/lists';
-import { memo } from 'react';
+import { memo, useState } from 'react';
+import Popover from '@/components/Popover';
+import EditListForm from './EditListForm';
 
 type ListCardProps = {
   list: List;
 };
 
-function ListCard({ list }: ListCardProps) {
-  const [currentList] = useListsStore((s) => s.lists).filter(
-    (l) => l.id === list.id,
-  );
+export function ListCard({ list }: ListCardProps) {
   const updateList = useListsStore((s) => s.updateList);
 
   const editableTitle = useEditable({ defaultValue: list.title });
 
-  function handleChangeListTitle() {
-    updateList({ ...currentList, title: editableTitle.value });
-  }
+  const [popoverOpen, setPopoverOpen] = useState(false);
 
   return (
     <CardRoot
@@ -44,15 +41,27 @@ function ListCard({ list }: ListCardProps) {
             <Editable.Preview />
             <Editable.Input onBlur={handleChangeListTitle} />
           </Editable.RootProvider>
-          <Tooltip content={'Enumerar acciones'}>
-            <IconButton
-              variant={'outline'}
-              size={'xs'}
-              _hover={{ bg: 'gray.300' }}
-            >
-              <ThreeDots />
-            </IconButton>
-          </Tooltip>
+          <Popover
+            popoverRootProps={{
+              positioning: { placement: 'right' },
+              modal: true,
+              open: popoverOpen,
+              onOpenChange: (e) => setPopoverOpen(e.open),
+            }}
+            trigger={
+              <IconButton
+                variant={'outline'}
+                size={'xs'}
+                _hover={{ bg: 'gray.300' }}
+              >
+                <Tooltip content={'Enumerar acciones'}>
+                  <ThreeDots />
+                </Tooltip>
+              </IconButton>
+            }
+          >
+            <EditListForm onSubmit={handleEditList} />
+          </Popover>
         </HStack>
       </CardHeader>
       <CardBody pt={0}>
@@ -60,6 +69,15 @@ function ListCard({ list }: ListCardProps) {
       </CardBody>
     </CardRoot>
   );
+
+  function handleChangeListTitle() {
+    updateList({ ...list, title: editableTitle.value });
+  }
+
+  function handleEditList(data: Partial<Omit<List, 'id'>>) {
+    updateList({ ...list, ...data });
+    setPopoverOpen(false);
+  }
 }
 
 export default memo(ListCard);
