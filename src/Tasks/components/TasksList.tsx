@@ -2,14 +2,12 @@ import {
   closestCenter,
   DndContext,
   DragEndEvent,
-  KeyboardSensor,
   PointerSensor,
   useSensors,
   useSensor,
 } from '@dnd-kit/core';
 import {
   SortableContext,
-  sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { Button, HStack, IconButton, ListRoot, Text } from '@chakra-ui/react';
@@ -19,10 +17,9 @@ import { useState } from 'react';
 import { Tooltip } from '@/components/ui/tooltip';
 import AddTaskForm from './AddTaskForm';
 import Task from '@/models/Task';
-import TaskItem from './TaskItem';
 import { useTasksStore } from '@/store';
 import { useTasksByList } from '@/store/tasks';
-import '@/customSensors'; // Para inhabilitar drag and drop para botones o elementos con el atributo data-no-dnd
+import SortableTaskItem from './SortableTaskItem';
 
 type TasksListProps = {
   listId: ListId;
@@ -37,12 +34,7 @@ export default function TasksList({ listId }: TasksListProps) {
 
   const [activePopoverId, setActivePopoverId] = useState<string | null>(null);
 
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
+  const sensors = useSensors(useSensor(PointerSensor));
 
   return (
     <DndContext
@@ -56,16 +48,21 @@ export default function TasksList({ listId }: TasksListProps) {
         gap={3}
         paddingBlock={4}
       >
-        <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
+        <SortableContext
+          items={tasks.map((t) => t.id)}
+          strategy={verticalListSortingStrategy}
+        >
           {tasks.map((task) => (
-            <TaskItem
+            <SortableTaskItem
               key={task.id}
-              task={task}
               draggable={!activePopoverId}
-              popoverProps={{
-                open: activePopoverId === task.id,
-                onOpenChange: (e) =>
-                  setActivePopoverId(e.open ? task.id : null),
+              taskItemProps={{
+                task: task,
+                popoverProps: {
+                  open: activePopoverId === task.id,
+                  onOpenChange: (e) =>
+                    setActivePopoverId(e.open ? task.id : null),
+                },
               }}
             />
           ))}
@@ -116,6 +113,14 @@ export default function TasksList({ listId }: TasksListProps) {
   function handleDragEndTask({ active, over }: DragEndEvent) {
     if (!over || active.id === over.id) return;
 
-    reorderTasks(active.id.toString(), over.id.toString());
+    const sourceListId = active.data?.current?.listId;
+    const destinationListId = over.data?.current?.listId;
+
+    reorderTasks(
+      active.id.toString(),
+      over.id.toString(),
+      sourceListId,
+      destinationListId,
+    );
   }
 }
