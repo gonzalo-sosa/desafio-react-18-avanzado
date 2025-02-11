@@ -1,21 +1,19 @@
 import { Button, Flex, ListItem, Stack } from '@chakra-ui/react';
-import { ListCard, AddListForm } from '@/Lists';
+import { AddListForm } from '@/Lists';
 import { LuPlus } from 'react-icons/lu';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
-import Board from '@/models/Board';
-import BoardNavBar from './BoardNavBar';
-import ListCardContainer from '@/Lists/components/ListCardContainer';
 import { useListsStore } from '@/store';
-import {
-  horizontalListSortingStrategy,
-  SortableContext,
-} from '@dnd-kit/sortable';
 import { useBoard } from '@/store/boards';
 import { useListsByBoard } from '@/store/lists';
 import { DragEndEvent } from '@dnd-kit/core';
+import Board from '@/models/Board';
+import BoardNavBar from './BoardNavBar';
+import ListCardContainer from '@/Lists/components/ListCardContainer';
+import SorteableListCard from '@/Lists/components/SorteableListCard';
+import '@/customSensors'; // Para inhabilitar drag and drop para botones o elementos con el atributo data-no-dnd
 
-export default function BoardPage() {
+export default function BoardInfo() {
   const { boardId } = useParams();
 
   const board = useBoard(boardId!);
@@ -41,17 +39,19 @@ export default function BoardPage() {
         padding={2}
         gap={4}
       >
-        <ListCardContainer onDragEndList={handleDragEndList}>
-          <SortableContext
-            items={lists}
-            strategy={horizontalListSortingStrategy}
-          >
-            {lists.map((list) => (
-              <ListItem key={list.id}>
-                <ListCard key={list.id} list={list} draggable />
-              </ListItem>
-            ))}
-          </SortableContext>
+        <ListCardContainer
+          lists={lists.map((l) => l.id)}
+          onDragEndList={handleDragEndList}
+        >
+          {lists.map((list) => (
+            <ListItem key={list.id}>
+              <SorteableListCard
+                key={list.id}
+                listCardProps={{ list }}
+                draggable
+              />
+            </ListItem>
+          ))}
         </ListCardContainer>
 
         {showForm ? (

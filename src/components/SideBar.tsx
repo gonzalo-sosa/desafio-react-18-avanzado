@@ -74,9 +74,6 @@ function SideBarContent() {
   );
 }
 
-// interface SideBarProps {
-// }
-
 export default function SideBar() {
   return (
     <DrawerRoot placement={'start'}>
@@ -86,8 +83,13 @@ export default function SideBar() {
         </IconButton>
       </DrawerTrigger>
       <DrawerContent maxW={'260px'}>
-        <DrawerHeader p={2}>
-          <HStack justifyContent={'space-between'}>
+        <DrawerHeader px={0} py={2}>
+          <HStack
+            p={2}
+            justifyContent={'space-between'}
+            borderBottom={'1px solid'}
+            borderColor={'gray.200'}
+          >
             <Button backgroundColor={'blue.500'} p={0}>
               <Text fontSize={'xl'}>E</Text>
             </Button>
@@ -100,13 +102,13 @@ export default function SideBar() {
               </Text>
             </Box>
             <DrawerActionTrigger asChild>
-              <IconButton variant="outline">
+              <IconButton size={'xs'} variant="outline">
                 <LuChevronLeft />
               </IconButton>
             </DrawerActionTrigger>
           </HStack>
         </DrawerHeader>
-        <DrawerBody px={0}>
+        <DrawerBody p={0}>
           <SideBarContent />
         </DrawerBody>
         <DrawerFooter>

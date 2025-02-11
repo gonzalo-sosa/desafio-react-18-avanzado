@@ -1,8 +1,12 @@
 import {
   Heading,
   HStack,
+  Icon,
   IconButton,
+  Link,
   ListRoot,
+  Stack,
+  Text,
   useDrawerContext,
 } from '@chakra-ui/react';
 import { LuPlus, LuTrello } from 'react-icons/lu';
@@ -12,6 +16,7 @@ import NewBoardForm from './NewBoardForm';
 import Popover from '@/components/Popover';
 import SideBarItem from '@/components/SideBarItem';
 import useBoardsStore from '@/store/boards';
+import { BsArrowRight } from 'react-icons/bs';
 
 export default function BoardsSideBar() {
   const boards = useBoardsStore((s) => s.boards);
@@ -46,6 +51,31 @@ export default function BoardsSideBar() {
           <NewBoardForm onSubmit={handleAddBoard} />
         </Popover>
       </HStack>
+      {boards.length === 0 && (
+        <HStack p={2}>
+          <Icon alignSelf={'start'} color={'gray.600'}>
+            <LuTrello />
+          </Icon>
+          <Stack>
+            <Text color={'gray.600'}>
+              Aún no tienes ningún tablero en este Espacio de trabajo. Todos los
+              tableros que crees o a los que te unas aparecerán aquí.
+            </Text>
+            <HStack>
+              <Popover
+                popoverRootProps={{
+                  positioning: { placement: 'right' },
+                  modal: true,
+                }}
+                trigger={<Link variant={'underline'}>Crea un tablero</Link>}
+              >
+                <NewBoardForm onSubmit={handleAddBoard} />
+              </Popover>
+              <BsArrowRight />
+            </HStack>
+          </Stack>
+        </HStack>
+      )}
       <ListRoot listStyle={'none'}>
         {boards.map((board) => (
           <SideBarItem

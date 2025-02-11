@@ -1,6 +1,5 @@
 import {
   Button,
-  Flex,
   HStack,
   IconButton,
   Input,
@@ -12,25 +11,30 @@ import {
   LuChevronDown,
   LuMessageCircleQuestion,
   LuSearch,
-  LuSquareMenu,
 } from 'react-icons/lu';
 import { MenuItem, MenuRoot, MenuTrigger } from './ui/menu';
 import Logo from './Logo';
 import DropDown from './DropDown';
 import { InputGroup } from './ui/input-group';
 import { useAuthContext } from '@/Auth';
+import MenuDots from './icons/MenuDots';
 
 export default function NavBar() {
   const { getUser, logout } = useAuthContext();
 
   return (
-    <HStack as={'nav'} padding={2} justifyContent={'space-between'}>
-      <Flex gap={2}>
+    <HStack
+      as={'nav'}
+      padding={2}
+      justifyContent={'space-between'}
+      textStyle={'xs'}
+    >
+      <HStack gap={2}>
         <MenuRoot>
           <MenuTrigger asChild>
-            <Button variant="outline" size="sm">
-              <LuSquareMenu />
-            </Button>
+            <IconButton variant="ghost" size="md">
+              <MenuDots />
+            </IconButton>
           </MenuTrigger>
           <MenuContent>
             <MenuItem value="new-txt">New Text File</MenuItem>
@@ -38,20 +42,32 @@ export default function NavBar() {
         </MenuRoot>
         <Logo />
         <DropDown>
-          Espacios de trabajo <LuChevronDown />
+          <Button variant={'ghost'} size={'xs'}>
+            Espacios de trabajo <LuChevronDown />
+          </Button>
         </DropDown>
         <DropDown>
-          Reciente <LuChevronDown />
+          <Button variant={'ghost'} size={'xs'}>
+            Reciente <LuChevronDown />
+          </Button>
         </DropDown>
         <DropDown>
-          Marcado <LuChevronDown />
+          <Button variant={'ghost'} size={'xs'}>
+            Marcado <LuChevronDown />
+          </Button>
         </DropDown>
         <DropDown>
-          Plantillas <LuChevronDown />
+          <Button variant={'ghost'} size={'xs'}>
+            Plantillas <LuChevronDown />
+          </Button>
         </DropDown>
-        <DropDown>Crear</DropDown>
-      </Flex>
-      <Flex flexDirection={'row'} alignItems={'center'} gap={2}>
+        <DropDown>
+          <Button colorPalette={'blue'} variant={'solid'} size={'xs'}>
+            Crear
+          </Button>
+        </DropDown>
+      </HStack>
+      <HStack alignItems={'center'} gap={2}>
         <InputGroup startElement={<LuSearch />}>
           <Input />
         </InputGroup>
@@ -65,7 +81,7 @@ export default function NavBar() {
         <Button onClick={() => logout()} size={'xs'}>
           Logout
         </Button>
-      </Flex>
+      </HStack>
     </HStack>
   );
 }
