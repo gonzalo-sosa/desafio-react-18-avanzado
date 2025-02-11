@@ -10,14 +10,14 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { useAuthContext } from '../Auth';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
+import Trello from './icons/Trello';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Field } from '@/components/ui/field';
 import { PasswordInput } from '@/components/ui/password-input';
-import Trello from './icons/Trello';
+import { useAuthContext } from '../Auth';
 
 const schema = z.object({
   email: z.string().email({ message: 'El correo no es válido' }),
