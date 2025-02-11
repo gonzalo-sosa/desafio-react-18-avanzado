@@ -15,7 +15,12 @@ interface Actions {
   addTask: (task: Task) => void;
   updateTask: (task: Task) => void;
   deleteTask: (taskId: TaskId) => void;
-  reorderTasks: (activeTaskId: TaskId, overTaskId: TaskId) => void;
+  reorderTasks: (
+    activeTaskId: TaskId,
+    overTaskId: TaskId,
+    sourceListId: ListId,
+    destinationListId: ListId,
+  ) => void;
 }
 
 const useTasksStore = create<State & Actions>()(
@@ -36,21 +41,35 @@ const useTasksStore = create<State & Actions>()(
             return t.id !== taskId;
           }),
         })),
-      reorderTasks: (activeTaskId: TaskId, overTaskId: TaskId) => {
-        set((state) => {
-          const activeTaskIndex = state.tasks.findIndex(
-            (t) => t.id === activeTaskId,
-          );
-          const overTaskIndex = state.tasks.findIndex(
-            (t) => t.id === overTaskId,
-          );
+      reorderTasks: (
+        activeTaskId: TaskId,
+        overTaskId: TaskId,
+        sourceListId: ListId,
+        destinationListId: ListId,
+      ) => {
+        if (sourceListId === destinationListId)
+          set((state) => {
+            const activeTaskIndex = state.tasks.findIndex(
+              (t) => t.id === activeTaskId,
+            );
+            const overTaskIndex = state.tasks.findIndex(
+              (t) => t.id === overTaskId,
+            );
 
-          if (activeTaskIndex === -1 || overTaskIndex === -1) return state;
+            if (activeTaskIndex === -1 || overTaskIndex === -1) return state;
 
-          return {
-            tasks: arrayMove(state.tasks, activeTaskIndex, overTaskIndex),
-          };
-        });
+            return {
+              tasks: arrayMove(state.tasks, activeTaskIndex, overTaskIndex),
+            };
+          });
+        else
+          set((state) => {
+            const taskToMove = state.tasks.find((t) => t.id === activeTaskId);
+            if (!taskToMove) return state;
+
+            // Actualiza el listId de la tarea para que pertenezca a la nueva lista
+            taskToMove.listId = destinationListId;
+          });
       },
     })),
     {
