@@ -14,7 +14,8 @@
     "test": "vitest run",
     "test:watch": "vitest run --watch",
     "test:coverage": "vitest run --coverage",
-    "prepare": "husky"
+    "prepare": "husky",
+    "scan": "bun dev && bun x react-scan@latest localhost:5173"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.5.1",
@@ -40,7 +41,9 @@
     "@chakra-ui/cli": "^3.5.1",
     "@eslint/js": "^9.17.0",
     "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.4.0",
     "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/bun": "^1.1.16",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
@@ -55,14 +58,17 @@
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
     "husky": "^9.1.7",
+    "jsdom": "^24.0.0",
     "lint-staged": "^15.4.3",
     "oxlint": "^0.15.8",
+    "resize-observer-polyfill": "^1.5.1",
     "simple-zustand-devtools": "^1.1.0",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
     "unsplash-js": "^7.0.19",
     "vite": "^6.0.5",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.5"
+    "vitest": "^3.0.5",
+    "vitest-axe": "^0.1.0"
   }
 }
