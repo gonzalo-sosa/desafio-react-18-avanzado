@@ -1,4 +1,3 @@
-// __mocks__/zustand.ts
 import { act } from '@testing-library/react';
 import type * as ZustandExportedTypes from 'zustand';
 export * from 'zustand';
@@ -13,7 +12,7 @@ const createUncurried = <T>(
   stateCreator: ZustandExportedTypes.StateCreator<T>,
 ) => {
   const store = actualCreate(stateCreator);
-  const initialState = store.getInitialState();
+  const initialState = store.getState(); // get initial state
   storeResetFns.add(() => {
     store.setState(initialState, true);
   });
