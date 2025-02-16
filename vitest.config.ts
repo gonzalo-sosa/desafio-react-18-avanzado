@@ -6,7 +6,9 @@ export default mergeConfig(
   defineConfig({
     test: {
       globals: true,
-      exclude: ['**/src/components/ui/**'],
+      environment: 'jsdom',
+      exclude: ['node_modules', '**/src/components/ui/**'],
+      setupFiles: "__tests__/setup.ts"
     }
   })
 )
