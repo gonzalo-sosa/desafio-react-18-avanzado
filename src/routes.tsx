@@ -1,48 +1,52 @@
-import { createBrowserRouter } from 'react-router-dom';
-import ProtectedRoutes from '@/components/ProtectedRoutes';
-import Register from '@/components/Register';
 import Login from '@/components/Login';
-import WorkSpacePage from './pages/WorkSpacePage';
-import NotFound from './components/NotFound';
-import TablePage from './pages/TablePage';
-import MembersPage from './pages/MembersPage';
-import BoardsPage from './pages/BoardsPage';
+import Register from '@/components/Register';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import App from './App';
 import BoardInfo from './Boards/components/BoardInfo';
+import NotFound from './components/NotFound';
+import ProtectedRoutes from './components/ProtectedRoutes';
+import BoardsPage from './pages/BoardsPage';
+import MembersPage from './pages/MembersPage';
+import TablePage from './pages/TablePage';
+import WorkSpacePage from './pages/WorkSpacePage';
 
 const router = createBrowserRouter([
   {
-    path: '/register',
-    element: <Register />,
-  },
-  {
-    path: '/login',
-    element: <Login />,
-  },
-  {
     path: '/',
-    element: <ProtectedRoutes />,
+    element: <App />,
     errorElement: <NotFound />,
     children: [
       {
         index: true,
-        element: <WorkSpacePage />,
-      },
-      { path: 'boards', element: <BoardsPage /> },
-      {
-        path: 'boards/:boardId',
-        element: <BoardInfo />,
+        element: <Navigate to={'/workspace'} />,
       },
       {
-        path: 'workspace/:workspaceId',
-        element: <WorkSpacePage />,
+        path: 'workspace',
+        element: <ProtectedRoutes />,
+        children: [
+          { index: true, element: <WorkSpacePage /> },
+          { path: 'boards', element: <BoardsPage /> },
+          {
+            path: 'boards/:boardId',
+            element: <BoardInfo />,
+          },
+          {
+            path: 'table',
+            element: <TablePage />,
+          },
+          {
+            path: 'members',
+            element: <MembersPage />,
+          },
+        ],
       },
       {
-        path: 'table',
-        element: <TablePage />,
+        path: 'register',
+        element: <Register />,
       },
       {
-        path: 'members',
-        element: <MembersPage />,
+        path: 'login',
+        element: <Login />,
       },
     ],
   },
