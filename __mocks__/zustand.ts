@@ -1,3 +1,4 @@
+// __mocks__/zustand.ts
 import { act } from '@testing-library/react';
 import type * as ZustandExportedTypes from 'zustand';
 export * from 'zustand';
@@ -12,7 +13,7 @@ const createUncurried = <T>(
   stateCreator: ZustandExportedTypes.StateCreator<T>,
 ) => {
   const store = actualCreate(stateCreator);
-  const initialState = store.getState(); // get initial state
+  const initialState = store.getState(); // store.getInitialState();
   storeResetFns.add(() => {
     store.setState(initialState, true);
   });
@@ -23,7 +24,7 @@ const createUncurried = <T>(
 export const create = (<T>(
   stateCreator: ZustandExportedTypes.StateCreator<T>,
 ) => {
-  console.log('zustand create mock');
+  // console.log('zustand create mock');
 
   // to support curried version of create
   return typeof stateCreator === 'function'
@@ -35,7 +36,7 @@ const createStoreUncurried = <T>(
   stateCreator: ZustandExportedTypes.StateCreator<T>,
 ) => {
   const store = actualCreateStore(stateCreator);
-  const initialState = store.getInitialState();
+  const initialState = store.getState(); // store.getInitialState();
   storeResetFns.add(() => {
     store.setState(initialState, true);
   });
@@ -46,7 +47,7 @@ const createStoreUncurried = <T>(
 export const createStore = (<T>(
   stateCreator: ZustandExportedTypes.StateCreator<T>,
 ) => {
-  console.log('zustand createStore mock');
+  // console.log('zustand createStore mock');
 
   // to support curried version of createStore
   return typeof stateCreator === 'function'
