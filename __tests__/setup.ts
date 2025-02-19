@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom/vitest';
+import { mockAuthentication } from '__mocks__/authentication';
+import localStorageMock from '__mocks__/localStorage';
 import ResizeObserver from 'resize-observer-polyfill';
-import { JSDOM } from 'jsdom';
 import { vi } from 'vitest';
 import 'vitest-axe/extend-expect';
-import localStorageMock from '__mocks__/localStorage';
 
 // ResizeObserver mock
 
@@ -32,6 +32,9 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
+// Authentication
+mockAuthentication();
+
 // localStorage mock
 
 Object.defineProperty(window, 'localStorage', {
@@ -47,43 +50,3 @@ beforeEach(() => {
 vi.mock('zustand'); // (auto-mocking)
 
 //#endregion State management
-
-// #region Chakra UI
-
-const { window: jsdomWindow } = new JSDOM();
-
-// IntersectionObserver mock
-const IntersectionObserverMock = vi.fn(() => ({
-  disconnect: vi.fn(),
-  observe: vi.fn(),
-  takeRecords: vi.fn(),
-  unobserve: vi.fn(),
-}));
-vi.stubGlobal('IntersectionObserver', IntersectionObserverMock);
-jsdomWindow['IntersectionObserver'] = IntersectionObserverMock;
-
-// Scroll Methods mock
-jsdomWindow.Element.prototype.scrollTo = () => {};
-jsdomWindow.Element.prototype.scrollIntoView = () => {};
-
-// requestAnimationFrame mock
-jsdomWindow.requestAnimationFrame = (cb: FrameRequestCallback) =>
-  setTimeout(cb, 1000 / 60);
-
-// URL object mock
-jsdomWindow.URL.createObjectURL = () => 'https://i.pravatar.cc/300';
-jsdomWindow.URL.revokeObjectURL = () => {};
-
-// navigator mock
-Object.defineProperty(jsdomWindow, 'navigator', {
-  value: {
-    clipboard: {
-      writeText: vi.fn(),
-    },
-  },
-});
-
-// Override globalThis
-Object.assign(global, { window, document: jsdomWindow.document });
-
-// #endregion Chakra UI

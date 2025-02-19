@@ -7,8 +7,7 @@ export default mergeConfig(
     test: {
       globals: true,
       environment: 'jsdom',
-      exclude: ['node_modules', '**/src/components/ui/**'],
-      setupFiles: "__tests__/setup.ts"
+      setupFiles: ["__tests__/setup-chakra-ui.ts", "__tests__/setup.ts"]
     }
   })
 )
