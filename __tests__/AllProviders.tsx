@@ -1,11 +1,6 @@
-import { Provider as ChakraProvider } from '@/components/ui/provider';
-import { AuthProvider } from '@/Auth';
-import { ReactNode } from 'react';
+import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
+import { PropsWithChildren } from 'react';
 
-export default function AllProviders({ children }: { children: ReactNode }) {
-  return (
-    <ChakraProvider>
-      <AuthProvider>{children}</AuthProvider>
-    </ChakraProvider>
-  );
+export default function AllProviders({ children }: PropsWithChildren) {
+  return <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>;
 }
