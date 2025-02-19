@@ -1,26 +1,15 @@
-import { useAuthContext } from '@/Auth';
-import { User } from '@/Auth/model';
-import { useEffect, useState } from 'react';
+import router from '@/routes';
+import { render, screen } from '@testing-library/react';
+import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 
-// Helper component for login/logout tests
-export const UserTestComponent = ({
-  user,
-  action,
-}: {
-  user: User;
-  action: 'login' | 'logout';
-}) => {
-  const { login, logout, getUser } = useAuthContext();
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+export const navigateTo = (to: string) => {
+  const routes = createMemoryRouter(router.routes, { initialEntries: [to] });
 
-  useEffect(() => setCurrentUser(getUser()), [getUser]);
-
-  return (
-    <div>
-      <button onClick={() => (action === 'login' ? login(user) : logout())}>
-        {action === 'login' ? 'Login' : 'Logout'}
-      </button>
-      <div data-testid="user">{currentUser?.name || 'No user'}</div>
-    </div>
-  );
+  render(<RouterProvider router={routes} />);
 };
+
+export const getSidebar = () => ({
+  getSidebarContainer: () => screen.getByTestId('sidebar'),
+  getSidebarOpenButton: () => screen.getByTestId('sidebar-open'),
+  getSidebarCloseButton: () => screen.getByTestId('sidebar-close'),
+});
