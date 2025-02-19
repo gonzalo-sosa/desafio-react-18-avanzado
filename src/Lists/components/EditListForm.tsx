@@ -1,13 +1,15 @@
+import { Field } from '@/components/ui/field';
 import { Button, Fieldset, Input } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Field } from '@/components/ui/field';
 
 const schema = z.object({
   title: z
-    .string({ message: 'El título es obligatorio' })
-    .min(1, { message: '1 carácter como mínimo' }),
+    .string()
+    .min(1, { message: '1 carácter como mínimo' })
+    .max(100, 'El título debe tener cómo máximo 100 caracteres')
+    .regex(/[A-Za-z0-9]/),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -20,14 +22,14 @@ export default function EditListForm({ onSubmit }: EditListFormProps) {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: { title: '' },
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form data-no-dnd="true" onSubmit={handleSubmit(onSubmit)}>
       <Fieldset.Root>
         <Fieldset.Legend>Editar Lista</Fieldset.Legend>
         <Fieldset.Content>
@@ -43,7 +45,9 @@ export default function EditListForm({ onSubmit }: EditListFormProps) {
             />
           </Field>
         </Fieldset.Content>
-        <Button type="submit">Guardar</Button>
+        <Button type="submit" disabled={isSubmitting}>
+          Guardar
+        </Button>
       </Fieldset.Root>
     </form>
   );
