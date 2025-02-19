@@ -5,6 +5,7 @@ import App from './App';
 import BoardInfo from './Boards/components/BoardInfo';
 import NotFound from './components/NotFound';
 import ProtectedRoutes from './components/ProtectedRoutes';
+import { Provider } from './components/ui/provider';
 import BoardsPage from './pages/BoardsPage';
 import MembersPage from './pages/MembersPage';
 import TablePage from './pages/TablePage';
@@ -14,7 +15,11 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    errorElement: <NotFound />,
+    errorElement: (
+      <Provider>
+        <NotFound />
+      </Provider>
+    ),
     children: [
       {
         index: true,
