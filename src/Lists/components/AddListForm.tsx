@@ -1,30 +1,41 @@
+import { Field } from '@/components/ui/field';
 import { Input } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Field } from '@/components/ui/field';
 
 const schema = z.object({
-  title: z.string().min(1, { message: 'Title is required' }),
+  title: z
+    .string()
+    .min(1, { message: 'Título es requerido' })
+    .max(100, 'Título debe tener como máximo 100 caracteres')
+    .regex(/[A-Za-z0-9]/),
 });
 
 type FormData = z.infer<typeof schema>;
 
 interface AddListFormProps {
   onSubmit: (data: FormData) => void;
+  onBlur: () => void;
 }
 
-export default function AddListForm({ onSubmit }: AddListFormProps) {
+export default function AddListForm({ onSubmit, onBlur }: AddListFormProps) {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
 
+  function doSubmit(data: FormData) {
+    onSubmit(data);
+    reset();
+  }
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(doSubmit)} onBlur={onBlur}>
       <Field errorText={errors.title?.message}>
         <Controller
           name="title"
