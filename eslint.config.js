@@ -1,33 +1,46 @@
 import js from "@eslint/js";
-import globals from "globals";
+import oxlint from "eslint-plugin-oxlint";
+import eslintPluginPrettier from "eslint-plugin-prettier";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
+import eslintPluginVitestGlobals from "eslint-plugin-vitest-globals";
+import globals from "globals";
 import tseslint from "typescript-eslint";
-import eslintPluginPrettier from "eslint-plugin-prettier";
-import oxlint from "eslint-plugin-oxlint"
 
 export default tseslint.config(
+  tseslint.configs.recommendedTypeChecked,
   {
+     languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+      globals: globals.browser,
+    },
+  },
+  oxlint.configs["flat/recommended"],
+  {
+    name: "react",
     ignores: [
       "**/node_modules/**",
       "**/.vercel/**",
-      "**/dist",
-      "**/__mocks__",
-      "**/__tests__",
-      "**/coverage",
-      "**/vite.config.ts",
-      "**/vitest.config.ts",
-      "**/src/components/ui/**"
+      "**/dist/**",
+      "**/**.config.**",
+      "**/src/components/ui/**",
+      "**/coverage/**",
+      "**/__mocks__/**",
+      "**/setup-chakra-ui.ts",
+      "**/setup.ts",
     ],
   },
   {
+    name: "react",
+    ignores: [
+      "**/__tests__/**",
+    ],
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-    },
     settings: { react: { version: "18.3" } },
     plugins: {
       react,
@@ -35,7 +48,6 @@ export default tseslint.config(
       "react-refresh": reactRefresh,
       typescript: tseslint,
       prettier: eslintPluginPrettier,
-      oxlint
     },
     rules: {
       ...js.configs.recommended.rules,
@@ -50,6 +62,21 @@ export default tseslint.config(
       ],
       ...tseslint.configs.recommended.rules,
       ...eslintPluginPrettier.configs.recommended.rules,
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/no-misused-promises": "off",
+      "@typescript-eslint/unbound-method": "off"
     },
   },
+  {
+    name: "vitest",
+    files: ["**/__tests__/*.{j,t}s?(x)", "**/*.spec.{j,t}s?(x)"],
+
+    plugins: {
+      vitestGlobals: eslintPluginVitestGlobals,
+    },
+    rules: {
+      ...eslintPluginVitestGlobals.configs.recommended.rules,
+      "@typescript-eslint/no-misused-promises": "error",
+    },
+  }
 );

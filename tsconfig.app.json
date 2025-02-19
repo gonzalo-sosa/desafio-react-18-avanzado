@@ -38,6 +38,7 @@
   "include": [
     "src",
     "__mocks__",
-    "__tests__"
-  ]
+    "__tests__",
+    "**/*.d.ts",
+  ],
 }
