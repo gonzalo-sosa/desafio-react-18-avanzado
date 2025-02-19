@@ -12,19 +12,26 @@ type FormData = z.infer<typeof schema>;
 
 interface AddTaskFormProps {
   onSubmit: (data: FormData) => void;
+  onBlur: () => void;
 }
 
-export default function AddTaskForm({ onSubmit }: AddTaskFormProps) {
+export default function AddTaskForm({ onSubmit, onBlur }: AddTaskFormProps) {
   const {
     control,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
 
+  const doSubmit = (data: FormData) => {
+    onSubmit(data);
+    reset();
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(doSubmit)} onBlur={onBlur}>
       <Field errorText={errors.title?.message}>
         <Controller
           name="title"
