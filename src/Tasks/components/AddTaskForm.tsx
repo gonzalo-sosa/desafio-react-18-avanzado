@@ -1,11 +1,15 @@
+import { Field } from '@/components/ui/field';
 import { Input } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Field } from '@/components/ui/field';
 
 const schema = z.object({
-  title: z.string().min(1, { message: 'Title is required' }),
+  title: z
+    .string()
+    .min(1, 'El título debe tener 1 carácter como mínimo')
+    .max(100, 'El título debe tener 100 caracteres como máximo')
+    .regex(/[A-Za-z0-9]/, 'El título sólo puede contener letras y números'),
 });
 
 type FormData = z.infer<typeof schema>;

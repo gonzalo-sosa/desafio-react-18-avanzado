@@ -7,11 +7,11 @@ import EditTaskForm from './EditTaskForm';
 import useTasksStore from '@/store/tasks';
 import { CSSProperties, forwardRef } from 'react';
 
-type TaskItemProps = {
+interface TaskItemProps {
   task: Task;
   style?: CSSProperties;
   popoverProps: Omit<PopoverRootProps, 'children'>;
-};
+}
 
 const TaskItem = forwardRef<HTMLLIElement, TaskItemProps>(
   ({ task, style, popoverProps, ...rest }, ref) => {

@@ -3,10 +3,10 @@ import TaskItem from './TaskItem';
 import { ComponentProps } from 'react';
 import { CSS } from '@dnd-kit/utilities';
 
-type SortableTaskItemProps = {
+interface SortableTaskItemProps {
   draggable: boolean;
   taskItemProps: ComponentProps<typeof TaskItem>;
-};
+}
 
 export default function SortableTaskItem({
   draggable,

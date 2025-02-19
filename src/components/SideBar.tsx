@@ -2,6 +2,16 @@
 
 import BoardsSideBar from '@/Boards/components/BoardsSideBar';
 import {
+  DrawerActionTrigger,
+  DrawerBody,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerRoot,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer';
+import {
   Box,
   Button,
   Flex,
@@ -20,29 +30,19 @@ import {
   LuTrello,
   LuUsers,
 } from 'react-icons/lu';
-import {
-  DrawerRoot,
-  DrawerHeader,
-  DrawerBody,
-  DrawerContent,
-  DrawerFooter,
-  DrawerTrigger,
-  DrawerTitle,
-  DrawerActionTrigger,
-} from '@/components/ui/drawer';
-import WorkSpaceSideBar from './WorkSpaceSideBar';
 import SideBarItem from './SideBarItem';
+import WorkSpaceSideBar from './WorkSpaceSideBar';
 
 function SideBarContent() {
   return (
     <VStack>
       <Flex as={'nav'} flexDirection={'column'} gap={2}>
         <ListRoot listStyle={'none'}>
-          <SideBarItem navLinkProps={{ to: '/boards' }}>
+          <SideBarItem navLinkProps={{ to: '/workspace/boards' }}>
             <LuTrello />
             Tableros
           </SideBarItem>
-          <SideBarItem navLinkProps={{ to: '/members' }}>
+          <SideBarItem navLinkProps={{ to: '/workspace/members' }}>
             <LuUsers />
             Miembros
             <IconButton
@@ -76,8 +76,8 @@ function SideBarContent() {
 
 export default function SideBar() {
   return (
-    <DrawerRoot placement={'start'}>
-      <DrawerTrigger asChild>
+    <DrawerRoot placement={'start'} data-testid={'sidebar'}>
+      <DrawerTrigger asChild data-testid={'sidebar-open'}>
         <IconButton size="sm" marginLeft={2}>
           <LuChevronRight />
         </IconButton>
@@ -101,7 +101,7 @@ export default function SideBar() {
                 Gratuito
               </Text>
             </Box>
-            <DrawerActionTrigger asChild>
+            <DrawerActionTrigger asChild data-testid={'sidebar-close'}>
               <IconButton size={'xs'} variant="outline">
                 <LuChevronLeft />
               </IconButton>

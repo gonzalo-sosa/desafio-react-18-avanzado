@@ -30,7 +30,9 @@ type FormData = z.infer<typeof schema>;
 
 export default function Login() {
   const { getUser, login } = useAuthContext();
+
   const navigate = useNavigate();
+
   const {
     control,
     handleSubmit,
@@ -54,6 +56,7 @@ export default function Login() {
       name: email.substring(0, email.indexOf('@')),
       email,
     });
+
     navigate('/', { state: { from: 'login' } });
   };
 

@@ -1,10 +1,3 @@
-import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react';
-import { textStyles } from './text-styles.ts';
+import { createSystem, defaultConfig } from '@chakra-ui/react';
 
-const config = defineConfig({
-  theme: {
-    textStyles,
-  },
-});
-
-export default createSystem(defaultConfig, config);
+export default createSystem(defaultConfig);

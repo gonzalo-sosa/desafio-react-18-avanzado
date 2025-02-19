@@ -33,7 +33,9 @@ type FormData = z.infer<typeof schema>;
 
 export default function Register() {
   const { getUser, login } = useAuthContext();
+
   const navigate = useNavigate();
+
   const {
     control,
     handleSubmit,

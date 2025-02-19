@@ -1,3 +1,6 @@
+import SideBarItem from '@/components/SideBarItem';
+import { BoardId } from '@/models/Board';
+import useBoardsStore from '@/store/boards';
 import {
   Heading,
   HStack,
@@ -9,26 +12,21 @@ import {
   Text,
   useDrawerContext,
 } from '@chakra-ui/react';
+import { BsArrowRight } from 'react-icons/bs';
 import { LuPlus, LuTrello } from 'react-icons/lu';
 import { useNavigate } from 'react-router-dom';
-import Board from '@/models/Board';
-import NewBoardForm from './NewBoardForm';
-import Popover from '@/components/Popover';
-import SideBarItem from '@/components/SideBarItem';
-import useBoardsStore from '@/store/boards';
-import { BsArrowRight } from 'react-icons/bs';
+import AddBoard from './AddBoard';
 
 export default function BoardsSideBar() {
   const boards = useBoardsStore((s) => s.boards);
-  const addBoard = useBoardsStore((s) => s.addBoard);
+
   const navigate = useNavigate();
+
   const { setOpen } = useDrawerContext();
 
-  const handleAddBoard = (data: Omit<Board, 'id'>) => {
-    const id = String(Date.now());
-    addBoard({ ...data, id });
-    navigate(`boards/${id}`);
+  const handleAddBoard = (boardId: BoardId) => {
     setOpen(false);
+    navigate(`/workspace/boards/${boardId}`);
   };
 
   return (
@@ -37,19 +35,14 @@ export default function BoardsSideBar() {
         <Heading fontSize={'sm'} fontWeight={'normal'}>
           Sus tableros
         </Heading>
-        <Popover
-          popoverRootProps={{
-            positioning: { placement: 'right' },
-            modal: true,
-          }}
+        <AddBoard
           trigger={
             <IconButton variant={'outline'} type="submit" size={'xs'}>
               <LuPlus />
             </IconButton>
           }
-        >
-          <NewBoardForm onSubmit={handleAddBoard} />
-        </Popover>
+          onAddBoard={handleAddBoard}
+        />
       </HStack>
       {boards.length === 0 && (
         <HStack p={2}>
@@ -62,15 +55,10 @@ export default function BoardsSideBar() {
               tableros que crees o a los que te unas aparecerán aquí.
             </Text>
             <HStack>
-              <Popover
-                popoverRootProps={{
-                  positioning: { placement: 'right' },
-                  modal: true,
-                }}
+              <AddBoard
                 trigger={<Link variant={'underline'}>Crea un tablero</Link>}
-              >
-                <NewBoardForm onSubmit={handleAddBoard} />
-              </Popover>
+                onAddBoard={handleAddBoard}
+              />
               <BsArrowRight />
             </HStack>
           </Stack>
@@ -80,7 +68,7 @@ export default function BoardsSideBar() {
         {boards.map((board) => (
           <SideBarItem
             key={board.id}
-            navLinkProps={{ to: `/boards/${board.id}` }}
+            navLinkProps={{ to: `/workspace/boards/${board.id}` }}
           >
             <LuTrello />
             {board.title}

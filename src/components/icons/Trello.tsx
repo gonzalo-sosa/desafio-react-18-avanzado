@@ -1,4 +1,5 @@
 import { createIcon, IconProps } from '@chakra-ui/react';
+import { forwardRef } from 'react';
 
 const TrelloIcon = createIcon({
   displayName: 'ThreeDots',
@@ -33,6 +34,10 @@ const TrelloIcon = createIcon({
   ),
 });
 
-export default function Trello({ ...rest }: IconProps) {
-  return <TrelloIcon {...rest} />;
-}
+const Trello = forwardRef<SVGSVGElement, IconProps>(({ ...rest }, ref) => {
+  return <TrelloIcon {...rest} ref={ref} />;
+});
+
+Trello.displayName = 'TrelloIcon';
+
+export default Trello;

@@ -1,7 +1,6 @@
-import { Text } from '@chakra-ui/react';
-import { isRouteErrorResponse, Link, useRouteError } from 'react-router-dom';
-import { EmptyState, VStack } from '@chakra-ui/react';
+import { EmptyState, Span, Text, VStack } from '@chakra-ui/react';
 import { BiError } from 'react-icons/bi';
+import { isRouteErrorResponse, Link, useRouteError } from 'react-router-dom';
 
 export default function ErrorPage() {
   const error = useRouteError();
@@ -23,14 +22,12 @@ export default function ErrorPage() {
               ? 'Página no encontrada'
               : 'Error inesperado'}
           </EmptyState.Title>
-          <EmptyState.Description>
+          <EmptyState.Description asChild>
             {isRouteErrorResponse(error) ? (
               <Text>
                 No pudimos encontrar la página que buscabas.{' '}
                 <Link to="/">
-                  <Text as="span" color="blue.500">
-                    Volver a la página de inicio
-                  </Text>
+                  <Span color="blue.500">Volver a la página de inicio</Span>
                 </Link>
               </Text>
             ) : (

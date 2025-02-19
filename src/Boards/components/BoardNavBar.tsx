@@ -13,9 +13,9 @@ import {
 } from 'react-icons/lu';
 import { useAuthContext } from '@/Auth';
 
-type BoardNavBarProps = {
+interface BoardNavBarProps {
   board: Board;
-};
+}
 
 export default function BoardNavBar({ board }: BoardNavBarProps) {
   const { getUser } = useAuthContext();

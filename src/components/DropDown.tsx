@@ -1,9 +1,9 @@
 import { Menu } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-type DropDownProps = {
+interface DropDownProps {
   children: ReactNode;
-};
+}
 
 export default function DropDown({ children }: DropDownProps) {
   return (

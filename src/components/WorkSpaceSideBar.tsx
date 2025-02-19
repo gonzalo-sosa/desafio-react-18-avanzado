@@ -16,11 +16,11 @@ export default function WorkSpaceSideBar() {
         </IconButton>
       </HStack>
       <ListRoot listStyle={'none'}>
-        <SideBarItem navLinkProps={{ to: '/table' }}>
+        <SideBarItem navLinkProps={{ to: '/workspace/table' }}>
           <LuTable />
           Tabla
         </SideBarItem>
-        <SideBarItem navLinkProps={{ to: '/calendar' }}>
+        <SideBarItem navLinkProps={{ to: '/workspace/calendar' }}>
           <LuCalendar /> Calendario
         </SideBarItem>
       </ListRoot>

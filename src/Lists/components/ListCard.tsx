@@ -8,17 +8,17 @@ import {
 } from '@chakra-ui/react';
 import { Tooltip } from '@/components/ui/tooltip';
 import List from '@/models/List';
-import TasksList from '@/Tasks/components/TasksList';
 import ThreeDots from '@/components/icons/ThreeDots';
 import useListsStore from '@/store/lists';
 import { CSSProperties, forwardRef, memo, useState } from 'react';
 import Popover from '@/components/Popover';
 import EditListForm from './EditListForm';
+import TasksListWrapper from '@/Tasks/components/TasksListWrapper';
 
-type ListCardProps = {
+interface ListCardProps {
   list: List;
   style?: CSSProperties;
-};
+}
 
 const ListCard = forwardRef<HTMLDivElement, ListCardProps>(
   ({ list, style, ...rest }, ref) => {
@@ -27,6 +27,16 @@ const ListCard = forwardRef<HTMLDivElement, ListCardProps>(
     const [editableTitle, setEditableTitle] = useState(list.title);
 
     const [popoverOpen, setPopoverOpen] = useState(false);
+
+    function handleChangeListTitle() {
+      updateList({ ...list, title: editableTitle });
+    }
+
+    function handleEditList(data: Partial<Omit<List, 'id'>>) {
+      updateList({ ...list, ...data });
+      setEditableTitle(data.title || list.title);
+      setPopoverOpen(false);
+    }
 
     return (
       <CardRoot
@@ -61,6 +71,7 @@ const ListCard = forwardRef<HTMLDivElement, ListCardProps>(
               }}
               trigger={
                 <IconButton
+                  data-no-dnd="true"
                   variant={'outline'}
                   size={'xs'}
                   _hover={{ bg: 'gray.300' }}
@@ -76,19 +87,10 @@ const ListCard = forwardRef<HTMLDivElement, ListCardProps>(
           </HStack>
         </CardHeader>
         <CardBody pt={0}>
-          <TasksList listId={list.id} />
+          <TasksListWrapper listId={list.id} />
         </CardBody>
       </CardRoot>
     );
-
-    function handleChangeListTitle() {
-      updateList({ ...list, title: editableTitle });
-    }
-
-    function handleEditList(data: Partial<Omit<List, 'id'>>) {
-      updateList({ ...list, ...data });
-      setPopoverOpen(false);
-    }
   },
 );
 

@@ -8,11 +8,11 @@ import {
 } from '@/components/ui/popover';
 import { PopoverRootProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-type NewBoardPopoverProps = {
+interface NewBoardPopoverProps {
   popoverRootProps?: Omit<PopoverRootProps, 'children'>;
   trigger: ReactNode;
   children: ReactNode;
-};
+}
 
 export default function Popover({
   popoverRootProps,

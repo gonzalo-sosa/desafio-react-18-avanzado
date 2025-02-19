@@ -1,17 +1,17 @@
 import { useSortable } from '@dnd-kit/sortable';
 import ListCard from './ListCard';
-import { ComponentProps } from 'react';
+import { ComponentProps, memo, useMemo } from 'react';
 import { CSS } from '@dnd-kit/utilities';
 
-type SorteableListCardProps = {
+interface SorteableListCardProps {
   draggable: boolean;
   listCardProps: ComponentProps<typeof ListCard>;
-};
+}
 
-export default function SorteableListCard({
+const SorteableListCard = ({
   draggable,
   listCardProps: { list, ...rest },
-}: SorteableListCardProps) {
+}: SorteableListCardProps) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
       id: list.id,
@@ -19,11 +19,14 @@ export default function SorteableListCard({
       disabled: !draggable,
     });
 
-  const style = {
-    transform: CSS.Translate.toString(transform),
-    transition,
-    cursor: draggable ? 'grab' : 'default',
-  };
+  const style = useMemo(
+    () => ({
+      transform: CSS.Translate.toString(transform),
+      transition,
+      cursor: draggable ? 'grab' : 'default',
+    }),
+    [draggable, transform, transition],
+  );
 
   return (
     <ListCard
@@ -35,4 +38,6 @@ export default function SorteableListCard({
       style={style}
     />
   );
-}
+};
+
+export default memo(SorteableListCard);

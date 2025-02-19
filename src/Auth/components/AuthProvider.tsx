@@ -1,10 +1,10 @@
-import { AuthContext } from '../context/AuthContext';
 import { ReactNode, useEffect, useState } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import { User } from '../model';
 
-type AuthProviderProps = {
+interface AuthProviderProps {
   children: ReactNode;
-};
+}
 
 export default function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
@@ -19,7 +19,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
-      const parsedData = JSON.parse(savedUser);
+      const parsedData = JSON.parse(savedUser) as User;
       return parsedData;
     }
 
