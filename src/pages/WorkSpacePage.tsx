@@ -1,13 +1,14 @@
 import { useBoardsStore } from '@/store';
 import { EmptyState, VStack } from '@chakra-ui/react';
 import { BsTrello } from 'react-icons/bs';
+import { Navigate } from 'react-router-dom';
 
 export default function WorkSpacePage() {
   const boards = useBoardsStore((s) => s.boards);
 
   if (boards.length === 0) return <WorkSpaceEmpty />;
 
-  return <div>WorkSpaceLayout</div>;
+  return <Navigate to={`/workspace/boards/${boards[0].id}`} />;
 }
 
 function WorkSpaceEmpty() {
