@@ -1,11 +1,11 @@
 import Popover from '@/components/Popover';
 import { Tooltip } from '@/components/ui/tooltip';
 import Task from '@/models/Task';
+import useTasksStore from '@/store/tasks';
 import { IconButton, ListItem, PopoverRootProps, Text } from '@chakra-ui/react';
+import { CSSProperties, forwardRef } from 'react';
 import { LuPencil } from 'react-icons/lu';
 import EditTaskForm from './EditTaskForm';
-import useTasksStore from '@/store/tasks';
-import { CSSProperties, forwardRef } from 'react';
 
 interface TaskItemProps {
   task: Task;
@@ -16,6 +16,11 @@ interface TaskItemProps {
 const TaskItem = forwardRef<HTMLLIElement, TaskItemProps>(
   ({ task, style, popoverProps, ...rest }, ref) => {
     const updateTask = useTasksStore((s) => s.updateTask);
+
+    function handleEditTask(data: Partial<Omit<Task, 'id'>>) {
+      updateTask({ ...task, ...data });
+      popoverProps.onOpenChange?.({ open: false });
+    }
 
     return (
       <ListItem
@@ -59,11 +64,6 @@ const TaskItem = forwardRef<HTMLLIElement, TaskItemProps>(
         </Popover>
       </ListItem>
     );
-
-    function handleEditTask(data: Partial<Omit<Task, 'id'>>) {
-      updateTask({ ...task, ...data });
-      popoverProps.onOpenChange?.({ open: false });
-    }
   },
 );
 
