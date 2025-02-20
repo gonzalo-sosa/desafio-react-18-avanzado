@@ -1,5 +1,3 @@
-import Login from '@/components/Login';
-import Register from '@/components/Register';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import App from './App';
 import BoardInfo from './Boards/components/BoardInfo';
@@ -7,7 +5,9 @@ import NotFound from './components/NotFound';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import { Provider } from './components/ui/provider';
 import BoardsPage from './pages/BoardsPage';
+import LoginPage from './pages/LoginPage';
 import MembersPage from './pages/MembersPage';
+import RegisterPage from './pages/RegisterPage';
 import TablePage from './pages/TablePage';
 import WorkSpacePage from './pages/WorkSpacePage';
 
@@ -47,11 +47,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'register',
-        element: <Register />,
+        element: <RegisterPage />,
       },
       {
         path: 'login',
-        element: <Login />,
+        element: <LoginPage />,
       },
     ],
   },
