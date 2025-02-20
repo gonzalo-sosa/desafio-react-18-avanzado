@@ -75,6 +75,7 @@ export const PasswordInput = React.forwardRef<
         {...rest}
         ref={mergeRefs(ref, inputRef)}
         type={visible ? 'text' : 'password'}
+        data-testid="password-input"
       />
     </InputGroup>
   );
