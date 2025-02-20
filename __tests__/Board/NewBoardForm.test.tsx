@@ -18,44 +18,6 @@ describe('NewBoardForm', () => {
     });
   });
 
-  const renderNewBoardForm = () => {
-    const onSubmit = vi.fn();
-
-    render(<NewBoardForm onSubmit={onSubmit} />, { wrapper: AllProviders });
-
-    const getTitleField = () =>
-      screen.getByRole('textbox', { name: /título de tablero/i });
-    const getVisibilityField = () =>
-      screen.getByRole('combobox', { name: /visibilidad/i });
-    const getSubmitButton = () =>
-      screen.getByRole('button', { name: /crear/i });
-
-    const fill = async (board: Partial<Omit<Board, 'id'>>) => {
-      const user = userEvent.setup();
-      if (board.title) await user.type(getTitleField(), board.title);
-      if (board.visibility) await user.click(getVisibilityField());
-      const options = screen.getAllByRole('option');
-      await user.click(options[0]);
-
-      await user.click(getSubmitButton());
-    };
-
-    const expectErrorToBeInTheDocument = (errorMessage: RegExp) => {
-      const error = screen.getByTestId('field-error');
-      expect(error).toBeInTheDocument();
-      expect(error).toHaveTextContent(errorMessage);
-    };
-
-    return {
-      getTitleField,
-      getVisibilityField,
-      getSubmitButton,
-      onSubmit,
-      fill,
-      expectErrorToBeInTheDocument,
-    };
-  };
-
   it('should render form fields', () => {
     const form = renderNewBoardForm();
 
@@ -134,4 +96,42 @@ describe('NewBoardForm', () => {
   });
 
   it.todo('should list the correct visibilities');
+
+  const renderNewBoardForm = () => {
+    const onSubmit = vi.fn();
+
+    render(<NewBoardForm onSubmit={onSubmit} />, { wrapper: AllProviders });
+
+    const getTitleField = () =>
+      screen.getByRole('textbox', { name: /título de tablero/i });
+    const getVisibilityField = () =>
+      screen.getByRole('combobox', { name: /visibilidad/i });
+    const getSubmitButton = () =>
+      screen.getByRole('button', { name: /crear/i });
+
+    const fill = async (board: Partial<Omit<Board, 'id'>>) => {
+      const user = userEvent.setup();
+      if (board.title) await user.type(getTitleField(), board.title);
+      if (board.visibility) await user.click(getVisibilityField());
+      const options = screen.getAllByRole('option');
+      await user.click(options[0]);
+
+      await user.click(getSubmitButton());
+    };
+
+    const expectErrorToBeInTheDocument = (errorMessage: RegExp) => {
+      const error = screen.getByTestId('field-error');
+      expect(error).toBeInTheDocument();
+      expect(error).toHaveTextContent(errorMessage);
+    };
+
+    return {
+      getTitleField,
+      getVisibilityField,
+      getSubmitButton,
+      onSubmit,
+      fill,
+      expectErrorToBeInTheDocument,
+    };
+  };
 });

@@ -52,27 +52,6 @@ describe('AddListForm', () => {
     expect(getTitleField()).toBeInTheDocument();
   });
 
-  it.todo.each([
-    {
-      scenario: 'missing',
-      errorMessage: /requerido/i,
-    },
-    {
-      scenario: 'greater than 100',
-      title: 'a'.repeat(101),
-      errorMessage: /100/,
-    },
-  ])(
-    'should render error message when title is $scenario',
-    async ({ title, errorMessage }) => {
-      const form = renderAddListForm();
-
-      await form.fill({ ...list, title });
-
-      form.expectErrorToBeInTheDocument(errorMessage);
-    },
-  );
-
   it('should call onSubmit with the correct data', async () => {
     const form = renderAddListForm();
 

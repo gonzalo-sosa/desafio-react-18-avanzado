@@ -30,6 +30,7 @@ describe('EditListForm', () => {
     const fill = async (list: Partial<List>) => {
       const user = userEvent.setup();
       if (list.title) await user.type(getTitleField(), list.title);
+
       await user.click(getSubmitButton());
     };
 

@@ -3,9 +3,11 @@ import { render, screen } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 
 export const navigateTo = (to: string) => {
-  const routes = createMemoryRouter(router.routes, { initialEntries: [to] });
+  const memoryRouter = createMemoryRouter(router.routes, {
+    initialEntries: [to],
+  });
 
-  render(<RouterProvider router={routes} />);
+  render(<RouterProvider router={memoryRouter} />);
 };
 
 export const getSidebar = () => ({
