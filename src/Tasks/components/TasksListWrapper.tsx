@@ -8,7 +8,7 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import AddTaskButton from './AddTaskButton';
+import AddTask from './AddTask';
 import TasksList from './TasksList';
 
 interface TasksListWrapperProps {
@@ -44,7 +44,7 @@ export default function TasksListWrapper({ listId }: TasksListWrapperProps) {
         <TasksList listId={listId} />
       </DndContext>
 
-      <AddTaskButton listId={listId} />
+      <AddTask listId={listId} />
     </>
   );
 }
