@@ -1,17 +1,17 @@
+import { Tooltip } from '@/components/ui/tooltip';
 import { ListId } from '@/models/List';
 import Task from '@/models/Task';
 import { useTasksStore } from '@/store';
-import { useState } from 'react';
-import AddTaskForm from './AddTaskForm';
 import { Button, HStack, IconButton, Text } from '@chakra-ui/react';
-import { LuPlus, LuImage } from 'react-icons/lu';
-import { Tooltip } from '@/components/ui/tooltip';
+import { useState } from 'react';
+import { LuImage, LuPlus } from 'react-icons/lu';
+import AddTaskForm from './AddTaskForm';
 
 interface AddTaskButtonProps {
   listId: ListId;
 }
 
-export default function AddTaskButton({ listId }: AddTaskButtonProps) {
+export default function AddTask({ listId }: AddTaskButtonProps) {
   const addTask = useTasksStore((s) => s.addTask);
 
   const [showForm, setShowForm] = useState(false);
