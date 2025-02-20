@@ -1,3 +1,9 @@
+import ThreeDots from '@/components/icons/ThreeDots';
+import Popover from '@/components/Popover';
+import { Tooltip } from '@/components/ui/tooltip';
+import List from '@/models/List';
+import useListsStore from '@/store/lists';
+import TasksListWrapper from '@/Tasks/components/TasksListWrapper';
 import {
   CardBody,
   CardHeader,
@@ -6,14 +12,8 @@ import {
   HStack,
   IconButton,
 } from '@chakra-ui/react';
-import { Tooltip } from '@/components/ui/tooltip';
-import List from '@/models/List';
-import ThreeDots from '@/components/icons/ThreeDots';
-import useListsStore from '@/store/lists';
 import { CSSProperties, forwardRef, memo, useState } from 'react';
-import Popover from '@/components/Popover';
 import EditListForm from './EditListForm';
-import TasksListWrapper from '@/Tasks/components/TasksListWrapper';
 
 interface ListCardProps {
   list: List;
@@ -75,6 +75,7 @@ const ListCard = forwardRef<HTMLDivElement, ListCardProps>(
                   variant={'outline'}
                   size={'xs'}
                   _hover={{ bg: 'gray.300' }}
+                  aria-label="Editar lista"
                 >
                   <Tooltip content={'Enumerar acciones'}>
                     <ThreeDots />
