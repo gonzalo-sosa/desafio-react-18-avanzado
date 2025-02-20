@@ -13,7 +13,7 @@ export default function BoardInfo() {
 
   const lists = useListsByBoard(boardId!);
 
-  if (!board) throw new Error('Board not found');
+  if (!board) throw new Error('El tablero no existe');
 
   return (
     <Stack h={'vh'}>
